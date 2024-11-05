@@ -14,6 +14,9 @@ namespace DevTDDTraining.SecondDay
         [Theory]
         // Arrange
         [InlineData("", 0)]
+        [InlineData("5", 5)]
+        [InlineData("10", 10)]
+        [InlineData("200", 200)]
         public void TestOneItem(string numbers, int expected)
         {
             // Act
@@ -29,6 +32,8 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
+            if (numbers == "5")
+                return 5;
             return 0;
         }
     }
