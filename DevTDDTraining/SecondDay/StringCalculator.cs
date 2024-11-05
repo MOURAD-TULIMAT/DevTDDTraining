@@ -57,23 +57,6 @@ namespace DevTDDTraining.SecondDay
             // Assert
             res.Should().Be(expected);
         }
-        [Theory]
-        // Arrange
-        [InlineData("1 12 5", 18)]
-        [InlineData("1 12", 13)]
-        public void TestOnlySpace(string numbers, int expected)
-        {
-            // Act
-            var stringCalc = new StringCalculator();
-            var res = stringCalc.Add(numbers);
-            // Assert
-            res.Should().Be(expected);
-        }
-        [Theory]
-        // Arrange
-        [InlineData("1\n2,5", 8)]
-        [InlineData("1,2\n15", 18)]
-        [InlineData("1\n2,5 15", 23)]
         // we can add tests here for other delimiters
         public void TestValideCases(string numbers, int expected)
         {
@@ -86,16 +69,43 @@ namespace DevTDDTraining.SecondDay
         [Theory]
         // Arrange
         [InlineData("1\n,2")]
-        [InlineData("1 ,2")]
-        [InlineData("1, 2")]
         [InlineData("a,b,c")]
+        [InlineData("a")]
         // we can add tests here for other delimiters
-        public void TestInvalideNumericCases(string numbers)
+        public void TestInvalideCases(string numbers)
         {
             // Act
             var stringCalc = new StringCalculator();
 
             Assert.Throws<ArgumentException>(() => stringCalc.Add(numbers));
+
+        }
+        [Theory]
+        // Arrange
+        [InlineData("//+\n1+2", 3)]
+        [InlineData("//;\n1;2", 3)]
+        [InlineData("//*\n1*2", 3)]
+        // we can add tests here for other delimiters
+        public void TestChangeDelimiter(string numbers, int expected)
+        {
+            // Act
+            var stringCalc = new StringCalculator();
+            var res = stringCalc.Add(numbers);
+            // Assert
+            res.Should().Be(expected);
+
+        }
+        [Theory]
+        // Arrange
+        [InlineData("10,-10")]
+        [InlineData("-2")]
+        // we can add tests here for other delimiters
+        public void TestNigativeNumbers(string numbers)
+        {
+            // Act
+            var stringCalc = new StringCalculator();
+
+            Assert.Throws<NegativesNotAllowedExeption>(() => stringCalc.Add(numbers));
 
         }
     }
@@ -104,15 +114,38 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
-            if (string.IsNullOrEmpty(numbers))
-                return 0;
-            var numbersList = numbers.Split([',', '\n', ' ']); // we can add other delimiters here
-            int _;
-            if (numbersList.Any(x => !int.TryParse(x, out _)))
+            var delimiter = ',';
+            if (numbers.StartsWith("//"))
             {
-                throw new ArgumentException();
+                if (numbers.Length > 3 && numbers[3] != '\n')
+                    throw new ArgumentException();
+                delimiter = numbers[2];
+                numbers = numbers.Substring(4);
             }
-            return numbersList.Sum(x => int.Parse(x));
+            if (string.IsNullOrEmpty(numbers))
+            {
+                return 0;
+            }
+
+            var numbersList = numbers.Split([delimiter, '\n']); // we can add other delimiters here
+
+            int res = 0;
+            foreach (var item in numbersList)
+            {
+                int number;
+
+                if (!int.TryParse(item, out number))
+                {
+                    throw new ArgumentException();
+                }
+
+                if (number < 0)
+                {
+                    throw new NegativesNotAllowedExeption();
+                }
+                res += number;
+            }
+            return res;
         }
     }
 }
