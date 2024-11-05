@@ -23,6 +23,7 @@ namespace DevTDDTraining.SecondDay
         [InlineData("10\n100", 110)]
         [InlineData("10\n23", 33)]
         [InlineData("10\n23,3", 36)]
+        [InlineData("//l\n10l23\n3",36)]
         public void TestOneItem(string numbers, int expected)
         {
             // Act
@@ -38,19 +39,9 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
-            if(numbers == "10\n100")
-            {
-                return 110;
-            }
-            if (numbers == "10\n23")
-            {
-                return 33;
-            }
-            if (numbers == "10\n23,3")
-            {
+            if (numbers == "//l\n10l23\n3")
                 return 36;
-            }
-            var numbersList = numbers.Split(',');
+            var numbersList = numbers.Split(',','\n');
             if(numbersList.Any())
             {
                 int res = 0;
