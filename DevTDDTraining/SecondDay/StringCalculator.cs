@@ -23,7 +23,9 @@ namespace DevTDDTraining.SecondDay
         [InlineData("10\n100", 110)]
         [InlineData("10\n23", 33)]
         [InlineData("10\n23,3", 36)]
-        [InlineData("//l\n10l23\n3",36)]
+        [InlineData("//l\n10l23\n3", 36)]
+        [InlineData("//+\n10+2\n3", 15)]
+        [InlineData("//.\n1.3\n3", 7)]
         public void TestOneItem(string numbers, int expected)
         {
             // Act
@@ -39,13 +41,17 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
-            if (numbers == "//l\n10l23\n3")
-                return 36;
-            var numbersList = numbers.Split(',','\n');
-            if(numbersList.Any())
+            var delimiter = ',';
+            if (numbers.StartsWith("//") && numbers.Length > 4)
+            {
+                delimiter = numbers[2];
+                numbers = numbers.Substring(4);
+            }
+            var numbersList = numbers.Split(delimiter, '\n');
+            if (numbersList.Any())
             {
                 int res = 0;
-                foreach(var item in numbersList)
+                foreach (var item in numbersList)
                 {
                     int number;
                     if (int.TryParse(item, out number))
