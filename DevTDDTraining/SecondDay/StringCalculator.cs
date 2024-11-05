@@ -32,8 +32,11 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
-            if (numbers == "5")
-                return 5;
+            int number;
+            if (int.TryParse(numbers,out number))
+            {
+                return number;
+            }
             return 0;
         }
     }
