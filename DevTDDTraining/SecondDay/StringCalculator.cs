@@ -19,6 +19,7 @@ namespace DevTDDTraining.SecondDay
         [InlineData("200", 200)]
         [InlineData("200,300", 500)]
         [InlineData("200,200", 400)]
+        [InlineData("200,100", 300)]
         public void TestOneItem(string numbers, int expected)
         {
             // Act
@@ -35,18 +36,20 @@ namespace DevTDDTraining.SecondDay
         public int Add(string numbers)
         {
 
-            if(numbers == "200,300")
+            var numbersList = numbers.Split(',');
+            if(numbersList.Any())
             {
-                return 500;
-            }
-            if(numbers == "200,200")
-            {
-                return 400;
-            }
-            int number;
-            if (int.TryParse(numbers,out number))
-            {
-                return number;
+                int res = 0;
+                foreach(var item in numbersList)
+                {
+                    int number;
+                    if (int.TryParse(item, out number))
+                    {
+                        res += number;
+                    }
+                    else break;
+                }
+                return res;
             }
             return 0;
         }
