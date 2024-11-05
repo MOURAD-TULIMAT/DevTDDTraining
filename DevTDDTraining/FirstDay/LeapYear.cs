@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
-namespace DevTDDTraining.NewFoldeFirstDayr
+namespace DevTDDTraining.FirstDay
 {
     public class LeapYearTest
     {
