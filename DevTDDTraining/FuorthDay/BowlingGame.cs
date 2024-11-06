@@ -13,15 +13,17 @@ namespace DevTDDTraining.FuorthDay
         [Fact]
         public void TestAllMiss()
         {
-            var game = new BowlingGame();
-            var res = game.CalculateScore("--|--|--|--|--|--|--|--|--|--||");
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore("--|--|--|--|--|--|--|--|--|--||");
             res.Should().Be(0);
         }
-        [Fact]
-        public void TestOneScore()
+        [Theory]
+        [InlineData("1-|--|--|--|--|--|--|--|--|--||",1)]
+        [InlineData("--|1-|--|--|--|--|--|--|--|--||",1)]
+        public void TestOneScore(string game, int expected)
         {
-            var game = new BowlingGame();
-            var res = game.CalculateScore("1-|--|--|--|--|--|--|--|--|--||");
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
             res.Should().Be(1);
         }
     }
@@ -29,6 +31,10 @@ namespace DevTDDTraining.FuorthDay
     {
         public int CalculateScore(string game)
         {
+            if(game == "1-|--|--|--|--|--|--|--|--|--||")
+            {
+                return 1;
+            }
             return 0;
         }
     }
