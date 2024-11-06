@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,20 @@ namespace DevTDDTraining.FuorthDay
         public void TestAllMiss()
         {
             var game = new BowlingGame();
-            var res = game.CalculateScore("--|--|--|--|--|--|--|--|--|--");
+            var res = game.CalculateScore("--|--|--|--|--|--|--|--|--|--||");
+            res.Should().Be(0);
+        }
+        [Fact]
+        public void TestOneScore()
+        {
+            var game = new BowlingGame();
+            var res = game.CalculateScore("1-|--|--|--|--|--|--|--|--|--||");
+            res.Should().Be(1);
         }
     }
     public class BowlingGame
     {
-        internal object CalculateScore(string game)
+        public int CalculateScore(string game)
         {
             return 0;
         }
