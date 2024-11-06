@@ -38,7 +38,9 @@ namespace DevTDDTraining.SecondDay
         [InlineData("1\n,2")]
         [InlineData("1 ,2")]
         [InlineData("1,,2")]
-
+        [InlineData("1-2")]
+        [InlineData("1+2")]
+        [InlineData("1.2")]
         public void TestExceptions(string numbers)
         {
             var stringCalc = new StringCalculator();
