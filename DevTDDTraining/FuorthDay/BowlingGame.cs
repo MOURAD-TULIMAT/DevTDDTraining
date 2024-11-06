@@ -82,9 +82,12 @@ namespace DevTDDTraining.FuorthDay
                     }
                     else if (game[i] == 'X')
                     {
+                        strikeBefore = 2;
                         res += 10;
                     }
                 }
+                else if (game[i] == '-')
+                    strikeBefore--;
 
             }
 
