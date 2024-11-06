@@ -10,6 +10,12 @@ namespace DevTDDTraining.ThirdDay
 {
     public class ChangeCalculatorTest
     {
+        ChangeCalculator changeCalculator;
+        public ChangeCalculatorTest()
+        {
+            changeCalculator = new ChangeCalculator();
+        }
+
         [Theory]
         [InlineData(200, 100, new[] { 100.0 })]
         [InlineData(400, 100, new[] { 100.0, 100.0, 100.0 })]
@@ -26,8 +32,7 @@ namespace DevTDDTraining.ThirdDay
 
         public void TestReturnHundreds(double paid, double cost, double[] expected)
         {
-            var calc = new ChangeCalculator();
-            double[] res = calc.GetChange(paid, cost);
+            double[] res = changeCalculator.GetChange(paid, cost);
             res.Should().Equal(expected);
         }
         [Theory]
@@ -39,8 +44,7 @@ namespace DevTDDTraining.ThirdDay
         [InlineData(-10, -200)]
         public void TestErrors(double paid, double cost)
         {
-            var calc = new ChangeCalculator();
-            Assert.Throws<ArgumentException>(() => calc.GetChange(paid, cost));
+            Assert.Throws<ArgumentException>(() => changeCalculator.GetChange(paid, cost));
         }
 
     }
