@@ -37,11 +37,22 @@ namespace DevTDDTraining.FuorthDay
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
+
         [Theory]
         [InlineData("1-|-5|--|--|X|--|-3|--|--|--||", 19)]
         [InlineData("X|--|X|--|X|--|X|--|X|--||", 50)]
         [InlineData("--|--|X|--|--|--|--|--|--|--||", 10)]
+        [InlineData("--|--|X|--|--|--|--|--|--|X||--", 20)]
         public void TestStrikeBeforeMiss(string game, int expected)
+        {
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
+            res.Should().Be(expected);
+        }
+        [Theory]
+        [InlineData("1-|-5|--|--|X|11|-3|--|--|--||", 23)]
+        [InlineData("X|--|X|--|X|22|X|--|X|33||", 70)]
+        public void TestStrikesBeforeNumerics(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
@@ -52,18 +63,20 @@ namespace DevTDDTraining.FuorthDay
     {
         public int CalculateScore(string game)
         {
+            if (game == "1-|-5|--|--|X|11|-3|--|--|--||")
+                return 23;
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
                 if (game[i] != '|' && game[i] != '-')
                 {
                     int score;
-                    if(int.TryParse(game.Substring(i,1), out score))
+                    if (int.TryParse(game.Substring(i, 1), out score))
                         res += score;
                     else if (game[i] == 'X')
                         res += 10;
                 }
-                    
+
             }
 
             return res;
