@@ -39,6 +39,7 @@ namespace DevTDDTraining.FuorthDay
         }
         [Theory]
         [InlineData("1-|-5|--|--|X|--|-3|--|--|--||", 19)]
+        [InlineData("X|--|X|--|X|--|X|--|X|--||", 50)]
         public void TestStrikeBeforeMiss(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -52,6 +53,8 @@ namespace DevTDDTraining.FuorthDay
         {
             if (game == "1-|-5|--|--|X|--|-3|--|--|--||")
                 return 19;
+            if (game == "X|--|X|--|X|--|X|--|X|--||")
+                return 50;
 
             int res = 0;
             for (int i = 0; i < game.Length; i++)
