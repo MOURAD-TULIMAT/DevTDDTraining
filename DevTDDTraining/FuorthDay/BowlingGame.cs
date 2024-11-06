@@ -30,7 +30,7 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("1-|-5|--|--|--|--|-3|--|--|--||", 9)]
         [InlineData("1-|-2|--|--|2-|--|2-|--|--|--||", 7)]
-        [InlineData("11|22|33|44|55|66|77|88|99|56||", 551)]
+        [InlineData("11|22|33|44|55|66|77|88|99|56||", 101)]
         public void TestNumericScores(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -42,23 +42,14 @@ namespace DevTDDTraining.FuorthDay
     {
         public int CalculateScore(string game)
         {
-            if (game == "1-|-5|--|--|--|--|-3|--|--|--||")
-            {
-                return 9;
-            }
-            if (game == "1-|-2|--|--|2-|--|2-|--|--|--||")
-            {
-                return 7;
-            }
+            int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
-                if (game[i] == '1')
-                {
-                    return 1;
-                }
+                if (game[i] != '|')
+                    res += int.Parse(game.Substring(i,1));
             }
 
-            return 0;
+            return res;
             
         }
     }
