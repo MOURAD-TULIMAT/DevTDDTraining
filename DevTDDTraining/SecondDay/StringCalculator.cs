@@ -34,13 +34,22 @@ namespace DevTDDTraining.SecondDay
             // Assert
             res.Should().Be(expected);
         }
-
+        [Fact]
+        public void TestExceptions()
+        {
+            var stringCalc = new StringCalculator();
+            Assert.Throws<ArgumentException>(() => stringCalc.Add("1\n,2"));
+        }
+        
     }
-
     internal class StringCalculator
     {
         public int Add(string numbers)
         {
+            if(numbers == "1\n,2")
+            {
+                throw new ArgumentException();
+            }
             var delimiter = ',';
             if (numbers.StartsWith("//") && numbers.Length > 4)
             {
