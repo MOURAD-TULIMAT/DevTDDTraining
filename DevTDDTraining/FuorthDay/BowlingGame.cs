@@ -64,24 +64,27 @@ namespace DevTDDTraining.FuorthDay
     {
         public int CalculateScore(string game)
         {
-            if (game == "1-|-5|--|--|X|11|-3|--|--|--||")
-                return 23;
-            if (game == "X|--|X|--|X|22|X|--|X|33||")
-                return 70;
-            if (game == "22|--|X|5-|X|22|X|-2|X|33||")
-                return 78;
             int res = 0;
-            int scoreStack = 0; 
+            int strikeBefore = 0; 
             for (int i = 0; i < game.Length; i++)
             {
-                //if (game[i] != '|' && game[i] != '-')
-                //{
-                //    int score;
-                //    if (int.TryParse(game.Substring(i, 1), out score))
-                //        res += score
-                //    else if (game[i] == 'X')
-                //        score =
-                //}
+                if (game[i] != '|' && game[i] != '-')
+                {
+                    int score;
+                    if (int.TryParse(game.Substring(i, 1), out score))
+                    {
+                        res += score;
+                        if (strikeBefore > 0)
+                        {
+                            res += score;
+                            strikeBefore--;
+                        }
+                    }
+                    else if (game[i] == 'X')
+                    {
+                        res += 10;
+                    }
+                }
 
             }
 
