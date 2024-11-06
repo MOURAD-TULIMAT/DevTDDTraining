@@ -115,9 +115,26 @@ namespace DevTDDTraining.FuorthDay
             return res;
 
         }
-        private static int BallingRoundResult(ref string game, int index)
+        private int BallingRoundResult(ref string game, int index)
         {
 
+
+
+
+            int res = 0;
+            if (game[index] == '/')
+                res -= int.Parse(game.Substring(index - 1, 1));
+
+            if (game[index] == 'X')
+            {
+                strikeBefore = 2;
+            }
+            else
+            {
+                strikeBefore--;
+            }
+
+            return 0;
         }
     }
 }
