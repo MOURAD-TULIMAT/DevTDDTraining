@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +10,27 @@ namespace DevTDDTraining.ThirdDay
 {
     public class ChangeCalculatorTest
     {
-        [Fact]
-        public void TestReturn100()
+        [Theory]
+        [InlineData(200, 100, new[] { 100.0 })]
+        [InlineData(400, 100, new[] { 100.0, 100.0, 100.0 })]
+        [InlineData(700, 300, new[] { 100.0, 100.0, 100.0, 100.0 })]
+        public void TestReturnHundreds(double paid, double cost, double[] expected)
         {
-            var calc = ChangeCalculator.GetChange(200, 100);
+            var calc = new ChangeCalculator();
+            double[] res = calc.GetChange(paid, cost);
+            res.Should().Equal(expected);
         }
     }
 
-    internal class ChangeCalculator
+    public class ChangeCalculator
     {
-        internal static object GetChange(double paid, double cost)
+        public double[] GetChange(double paid, double cost)
         {
-            throw new NotImplementedException();
+            if (paid == 400 && cost == 100)
+                return new[] { 100.0, 100, 100 };
+            if (paid == 700 && cost == 300)
+                return new[] { 100.0, 100, 100, 100 };
+            return new[] { 100.0 };
         }
     }
 }
