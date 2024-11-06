@@ -21,6 +21,7 @@ namespace DevTDDTraining.ThirdDay
         [InlineData(1100, 1080, new[] { 20.0 })]
         [InlineData(1100, 1060, new[] { 20.0, 20 })]
         [InlineData(1100, 1030, new[] { 50, 20.0 })]
+        [InlineData(1100, 1030, new[] { 50, 20.0 })]
         public void TestReturnHundreds(double paid, double cost, double[] expected)
         {
             var calc = new ChangeCalculator();
@@ -36,21 +37,15 @@ namespace DevTDDTraining.ThirdDay
             var changes = new List<double>() { 100, 50, 20, 10, 5, 1, .5, .25, .1, .05, .01 };
             var res = new List<double>();
             double remainingAmount = paid - cost;
-            while (remainingAmount >= 100)
+            foreach (var change in changes)
             {
-                res.Add(100);
-                remainingAmount -= 100;
+                while (remainingAmount >= change)
+                {
+                    res.Add(change);
+                    remainingAmount -= change;
+                }
             }
-            if (remainingAmount >= 50)
-            {
-                remainingAmount -= 50;
-                res.Add(50);
-            }
-            while (remainingAmount >= 20)
-            {
-                remainingAmount -= 20;
-                res.Add(20);
-            }
+
             return res.ToArray();
         }
     }
