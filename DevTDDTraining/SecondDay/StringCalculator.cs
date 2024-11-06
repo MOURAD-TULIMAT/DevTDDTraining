@@ -49,6 +49,7 @@ namespace DevTDDTraining.SecondDay
         [Theory]
         [InlineData("1,-2")]
         [InlineData("-1,-2")]
+        [InlineData("//o\n1o-2")]
         public void TestNegativeExceptions(string numbers)
         {
             var stringCalc = new StringCalculator();
@@ -60,8 +61,6 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
-            if (numbers == "1,-2" || numbers == "-1,-2")
-                throw new NegativesNotAllowedExeption();
             if (numbers == "")
                 return 0;
             if (numbers.Contains(' '))
@@ -89,6 +88,9 @@ namespace DevTDDTraining.SecondDay
                     {
                         throw new ArgumentException();
                     }
+
+                    if (number < 0)
+                        throw new NegativesNotAllowedExeption();
                 }
                 return res;
             }
