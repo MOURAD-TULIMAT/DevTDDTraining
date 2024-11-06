@@ -33,7 +33,7 @@ namespace DevTDDTraining.ThirdDay
     {
         internal double[] GetChange(double paid, double cost)
         {
-
+            var changes = new List<double>() { 100, 50, 20, 10, 5, 1, .5, .25, .1, .05, .01 };
             var res = new List<double>();
             double remainingAmount = paid - cost;
             while (remainingAmount >= 100)
