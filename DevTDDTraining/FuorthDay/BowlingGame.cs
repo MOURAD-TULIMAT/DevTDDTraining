@@ -39,6 +39,7 @@ namespace DevTDDTraining.FuorthDay
         }
 
         [Theory]
+        [InlineData("X|--|--|--|--|--|--|--|--|--||", 19)]
         [InlineData("1-|-5|--|--|X|--|-3|--|--|--||", 19)]
         [InlineData("X|--|X|--|X|--|X|--|X|--||", 50)]
         [InlineData("--|--|X|--|--|--|--|--|--|--||", 10)]
@@ -50,6 +51,7 @@ namespace DevTDDTraining.FuorthDay
             res.Should().Be(expected);
         }
         [Theory]
+        [InlineData("X|11|--|--|--|--|--|--|--|--||", 14)]
         [InlineData("1-|-5|--|--|X|11|-3|--|--|--||", 23)]
         [InlineData("X|--|X|--|X|22|X|--|X|33||", 70)]
         [InlineData("22|--|X|5-|X|22|X|-2|X|33||", 78)]
@@ -61,6 +63,7 @@ namespace DevTDDTraining.FuorthDay
             res.Should().Be(expected);
         }
         [Theory]
+        [InlineData("1/|--|--|--|--|--|--|--|--|--||", 10)]
         [InlineData("1-|-5|--|--|2/|--|-3|--|--|--||", 19)]
         [InlineData("4/|--|2/|--|5/|--|4/|--|9/|--||", 50)]
         [InlineData("--|--|2/|--|--|--|--|--|--|4/||-", 20)]
