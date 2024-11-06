@@ -117,13 +117,20 @@ namespace DevTDDTraining.FuorthDay
         }
         private int BallingRoundResult(ref string game, int index)
         {
-
-
-
-
             int res = 0;
-            if (game[index] == '/')
-                res -= int.Parse(game.Substring(index - 1, 1));
+
+            if (game[index] == 'X' || game[index] == '/')
+                res = 10;
+            else if(game[index] != '-')
+            {
+                res = (int)game[index] - '0';
+            }
+
+            if (game[index] == '/' && game[index-1] != '-')
+                res -= (int)game[index-1] - '0';
+
+            if (strikeBefore > 0 && game[index] != '-')
+                res += (int)game[index] - '0';
 
             if (game[index] == 'X')
             {
@@ -134,7 +141,8 @@ namespace DevTDDTraining.FuorthDay
                 strikeBefore--;
             }
 
-            return 0;
+            return res;
         }
+
     }
 }
