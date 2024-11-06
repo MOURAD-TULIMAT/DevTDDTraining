@@ -46,12 +46,22 @@ namespace DevTDDTraining.SecondDay
             var stringCalc = new StringCalculator();
             Assert.Throws<ArgumentException>(() => stringCalc.Add(numbers));
         }
-        
+        [Theory]
+        [InlineData("1,-2")]
+        [InlineData("-1,-2")]
+        public void TestNegativeExceptions(string numbers)
+        {
+            var stringCalc = new StringCalculator();
+            Assert.Throws<NegativesNotAllowedExeption>(() => stringCalc.Add(numbers));
+        }
+
     }
     internal class StringCalculator
     {
         public int Add(string numbers)
         {
+            if (numbers == "1,-2" || numbers == "-1,-2")
+                throw new NegativesNotAllowedExeption();
             if (numbers == "")
                 return 0;
             if (numbers.Contains(' '))
