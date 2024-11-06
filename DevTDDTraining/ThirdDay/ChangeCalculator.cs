@@ -21,7 +21,7 @@ namespace DevTDDTraining.ThirdDay
         [InlineData(1100, 1080, new[] { 20.0 })]
         [InlineData(1100, 1060, new[] { 20.0, 20 })]
         [InlineData(1100, 1030, new[] { 50, 20.0 })]
-        [InlineData(1100, 1028.3, new[] { 50.0, 20, 1, .5, .1, .1})]
+        [InlineData(1100, 1028.3, new[] { 50.0, 20, 1, .5, .1, .1 })]
         [InlineData(1100, 1100, new double[] { })]
 
         public void TestReturnHundreds(double paid, double cost, double[] expected)
@@ -32,22 +32,25 @@ namespace DevTDDTraining.ThirdDay
         }
         [Theory]
         [InlineData(200, 300)]
+        [InlineData(10, 300)]
+        [InlineData(10, 200)]
         public void TestErrors(double paid, double cost)
         {
             var calc = new ChangeCalculator();
-            Assert.Throws<ArgumentException>(() => calc.GetChange(paid,cost));
+            Assert.Throws<ArgumentException>(() => calc.GetChange(paid, cost));
         }
+
     }
 
     public class ChangeCalculator
     {
         internal double[] GetChange(double paid, double cost)
         {
-            if (cost == 300 && paid == 200)
-                throw new ArgumentException();
             var changes = new List<double>() { 100, 50, 20, 10, 5, 1, .5, .25, .1, .05, .01 };
             var res = new List<double>();
             double remainingAmount = paid - cost;
+            if (remainingAmount < 0)
+                throw new ArgumentException();
             foreach (var change in changes)
             {
                 while (remainingAmount >= change)
