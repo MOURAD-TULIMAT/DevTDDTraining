@@ -19,18 +19,24 @@ namespace DevTDDTraining.ThirdDay
             var calc = new ChangeCalculator();
             double[] res = calc.GetChange(paid, cost);
             res.Should().Equal(expected);
+
         }
     }
 
     public class ChangeCalculator
     {
-        public double[] GetChange(double paid, double cost)
+        internal double[] GetChange(double paid, double cost)
         {
-            if (paid == 400 && cost == 100)
-                return new[] { 100.0, 100, 100 };
-            if (paid == 700 && cost == 300)
-                return new[] { 100.0, 100, 100, 100 };
-            return new[] { 100.0 };
+            var res = new List<double>();
+            double remainingAmount = paid - cost;
+
+            while (remainingAmount >= 100)
+            {
+                res.Add(100);
+                remainingAmount -= 100;
+            }
+
+            return res.ToArray();
         }
     }
 }
