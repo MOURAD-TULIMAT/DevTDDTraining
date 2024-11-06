@@ -50,7 +50,7 @@ namespace DevTDDTraining.ThirdDay
         internal double[] GetChange(double paid, double cost)
         {
             double remainingAmount = paid - cost;
-            if (remainingAmount < 0)
+            if (remainingAmount < 0 || paid < 0 || cost < 0)
                 throw new ArgumentException();
             var changes = new List<double>() { 100, 50, 20, 10, 5, 1, .5, .25, .1, .05, .01 };
             var res = new List<double>();
