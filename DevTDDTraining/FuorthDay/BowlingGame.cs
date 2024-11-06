@@ -102,6 +102,11 @@ namespace DevTDDTraining.FuorthDay
                         strikeBefore = 2;
                         res += 10;
                     }
+                    else if (game[i] == '/')
+                    {
+                        var sub = int.Parse(game.Substring(i-1,1));
+                        res -= 10 - sub;
+                    }
                 }
                 else if (game[i] == '-')
                     strikeBefore--;
