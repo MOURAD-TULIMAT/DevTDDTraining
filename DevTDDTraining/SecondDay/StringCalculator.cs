@@ -34,11 +34,15 @@ namespace DevTDDTraining.SecondDay
             // Assert
             res.Should().Be(expected);
         }
-        [Fact]
-        public void TestExceptions()
+        [Theory]
+        [InlineData("1\n,2")]
+        [InlineData("1 ,2")]
+        [InlineData("1,,2")]
+
+        public void TestExceptions(string numbers)
         {
             var stringCalc = new StringCalculator();
-            Assert.Throws<ArgumentException>(() => stringCalc.Add("1\n,2"));
+            Assert.Throws<ArgumentException>(() => stringCalc.Add(numbers));
         }
         
     }
@@ -46,10 +50,6 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
-            if(numbers == "1\n,2")
-            {
-                throw new ArgumentException();
-            }
             var delimiter = ',';
             if (numbers.StartsWith("//") && numbers.Length > 4)
             {
@@ -67,7 +67,10 @@ namespace DevTDDTraining.SecondDay
                     {
                         res += number;
                     }
-                    else break;
+                    else
+                    {
+                        throw new ArgumentException();
+                    }
                 }
                 return res;
             }
