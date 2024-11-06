@@ -75,14 +75,9 @@ namespace DevTDDTraining.FuorthDay
     {
         public int CalculateScore(string game)
         {
-            if (game == "1-|-5|--|--|2/|--|-3|--|--|--||")
-                return 19;
-            if (game == "4/|--|2/|--|5/|--|4/|--|9/|--||")
-                return 50;
-            if (game == "--|--|2/|--|--|--|--|--|--|4/||-")
-                return 20;
             int res = 0;
             int strikeBefore = 0;
+            int spareBefore = 0;
             for (int i = 0; i < game.Length; i++)
             {
                 if (game[i] != '|' && game[i] != '-')
@@ -96,6 +91,11 @@ namespace DevTDDTraining.FuorthDay
                             res += score;
                             strikeBefore--;
                         }
+                        if (spareBefore > 0)
+                        {
+                            res += score;
+                            spareBefore--;
+                        }
                     }
                     else if (game[i] == 'X')
                     {
@@ -104,6 +104,7 @@ namespace DevTDDTraining.FuorthDay
                     }
                     else if (game[i] == '/')
                     {
+                        spareBefore = 1;
                         var sub = int.Parse(game.Substring(i-1,1));
                         res -= 10 - sub;
                     }
