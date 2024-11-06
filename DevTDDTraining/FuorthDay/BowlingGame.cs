@@ -45,7 +45,7 @@ namespace DevTDDTraining.FuorthDay
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
-                if (game[i] != '|')
+                if (game[i] != '|' && game[i] != '-')
                     res += int.Parse(game.Substring(i,1));
             }
 
