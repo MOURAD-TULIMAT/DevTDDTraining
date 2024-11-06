@@ -25,18 +25,30 @@ namespace DevTDDTraining.FuorthDay
         {
             var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
-            res.Should().Be(1);
+            res.Should().Be(expected);
+        }
+        [Theory]
+        [InlineData("1-|-5|--|--|--|--|-3|--|--|--||", 9)]
+        public void TestNumericScores(string game, int expected)
+        {
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
+            res.Should().Be(expected);
         }
     }
     public class BowlingGame
     {
         public int CalculateScore(string game)
         {
-            if(game == "1-|--|--|--|--|--|--|--|--|--||" || game == "--|1-|--|--|--|--|--|--|--|--||" || game == "--|--|--|--|1-|--|--|--|--|--||")
+            //if()
+            for (int i = 0; i < game.Length; i++)
             {
-                return 1;
+                if (game[i] == '1')
+                {
+                    return 1;
+                }
             }
-            //for(int i = 0; i < game.Length;i++) {
+
             return 0;
             
         }
