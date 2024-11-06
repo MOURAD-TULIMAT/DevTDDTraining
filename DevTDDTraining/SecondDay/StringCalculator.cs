@@ -1,16 +1,15 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DevTDDTraining.SecondDay
 {
     public class StringCalculatorTest
     {
+        private StringCalculator StringCalculator;
+        public StringCalculatorTest()
+        {
+            StringCalculator = new StringCalculator();
+        }
         [Theory]
         // Arrange
         [InlineData("", 0)]
@@ -29,8 +28,7 @@ namespace DevTDDTraining.SecondDay
         public void TestOneItem(string numbers, int expected)
         {
             // Act
-            var stringCalc = new StringCalculator();
-            var res = stringCalc.Add(numbers);
+            var res = StringCalculator.Add(numbers);
             // Assert
             res.Should().Be(expected);
         }
@@ -43,8 +41,7 @@ namespace DevTDDTraining.SecondDay
         [InlineData("1.2")]
         public void TestExceptions(string numbers)
         {
-            var stringCalc = new StringCalculator();
-            Assert.Throws<ArgumentException>(() => stringCalc.Add(numbers));
+            Assert.Throws<ArgumentException>(() => StringCalculator.Add(numbers));
         }
         [Theory]
         [InlineData("1,-2")]
@@ -52,8 +49,7 @@ namespace DevTDDTraining.SecondDay
         [InlineData("//o\n1o-2")]
         public void TestNegativeExceptions(string numbers)
         {
-            var stringCalc = new StringCalculator();
-            Assert.Throws<NegativesNotAllowedExeption>(() => stringCalc.Add(numbers));
+            Assert.Throws<NegativesNotAllowedExeption>(() => StringCalculator.Add(numbers));
         }
 
     }

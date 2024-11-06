@@ -10,7 +10,7 @@ namespace DevTDDTraining.ThirdDay
 {
     public class ChangeCalculatorTest
     {
-        ChangeCalculator changeCalculator;
+        private ChangeCalculator changeCalculator;
         public ChangeCalculatorTest()
         {
             changeCalculator = new ChangeCalculator();
