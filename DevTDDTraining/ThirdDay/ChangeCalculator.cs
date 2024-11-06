@@ -21,7 +21,7 @@ namespace DevTDDTraining.ThirdDay
         [InlineData(1100, 1080, new[] { 20.0 })]
         [InlineData(1100, 1060, new[] { 20.0, 20 })]
         [InlineData(1100, 1030, new[] { 50, 20.0 })]
-        [InlineData(1100, 1030, new[] { 50, 20.0 })]
+        [InlineData(1100, 1028.3, new[] { 50.0, 20, 1, .5, .1, .1})]
         public void TestReturnHundreds(double paid, double cost, double[] expected)
         {
             var calc = new ChangeCalculator();
