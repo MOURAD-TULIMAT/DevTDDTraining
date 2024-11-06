@@ -50,6 +50,12 @@ namespace DevTDDTraining.SecondDay
     {
         public int Add(string numbers)
         {
+            if (numbers == "")
+                return 0;
+            if (numbers.Contains(' '))
+            {
+                throw new ArgumentException();
+            }
             var delimiter = ',';
             if (numbers.StartsWith("//") && numbers.Length > 4)
             {
