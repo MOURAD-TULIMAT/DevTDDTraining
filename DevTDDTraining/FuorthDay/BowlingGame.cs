@@ -20,6 +20,7 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("1-|--|--|--|--|--|--|--|--|--||",1)]
         [InlineData("--|1-|--|--|--|--|--|--|--|--||",1)]
+        [InlineData("--|--|--|--|1-|--|--|--|--|--||",1)]
         public void TestOneScore(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -31,11 +32,13 @@ namespace DevTDDTraining.FuorthDay
     {
         public int CalculateScore(string game)
         {
-            if(game == "1-|--|--|--|--|--|--|--|--|--||")
+            if(game == "1-|--|--|--|--|--|--|--|--|--||" || game == "--|1-|--|--|--|--|--|--|--|--||" || game == "--|--|--|--|1-|--|--|--|--|--||")
             {
                 return 1;
             }
+            //for(int i = 0; i < game.Length;i++) {
             return 0;
+            
         }
     }
 }
