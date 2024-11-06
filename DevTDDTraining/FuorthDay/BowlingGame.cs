@@ -39,7 +39,7 @@ namespace DevTDDTraining.FuorthDay
         }
 
         [Theory]
-        [InlineData("X|--|--|--|--|--|--|--|--|--||", 19)]
+        [InlineData("X|--|--|--|--|--|--|--|--|--||", 10)]
         [InlineData("1-|-5|--|--|X|--|-3|--|--|--||", 19)]
         [InlineData("X|--|X|--|X|--|X|--|X|--||", 50)]
         [InlineData("--|--|X|--|--|--|--|--|--|--||", 10)]
@@ -76,41 +76,47 @@ namespace DevTDDTraining.FuorthDay
     }
     public class BowlingGame
     {
+        private int strikeBefore = 0;
         public int CalculateScore(string game)
         {
             int res = 0;
-            int strikeBefore = 0;
             for (int i = 0; i < game.Length; i++)
             {
-                if (game[i] != '|' && game[i] != '-')
-                {
-                    int score;
-                    if (int.TryParse(game.Substring(i, 1), out score))
-                    {
-                        res += score;
-                        if (strikeBefore > 0)
-                        {
-                            res += score;
-                            strikeBefore--;
-                        }
-                    }
-                    else if (game[i] == 'X')
-                    {
-                        strikeBefore = 2;
-                        res += 10;
-                    }
-                    else if (game[i] == '/')
-                    {
-                        var sub = int.Parse(game.Substring(i-1,1));
-                        res += 10 - sub;
-                    }
-                }
-                else if (game[i] == '-')
-                    strikeBefore--;
+                if (game[i] != '|')
+                    res += BallingRoundResult(ref game, i);
+                //if (game[i] != '|' && game[i] != '-')
+                //{
+                //    int score;
+                //    if (int.TryParse(game.Substring(i, 1), out score))
+                //    {
+                //        res += score;
+                //        if (strikeBefore > 0)
+                //        {
+                //            res += score;
+                //            strikeBefore--;
+                //        }
+                //    }
+                //    else if (game[i] == 'X')
+                //    {
+                //        strikeBefore = 2;
+                //        res += 10;
+                //    }
+                //    else if (game[i] == '/')
+                //    {
+                //        var sub = int.Parse(game.Substring(i - 1, 1));
+                //        res += 10 - sub;
+                //    }
+                //}
+                //else if (game[i] == '-')
+                //    strikeBefore--;
 
             }
 
             return res;
+
+        }
+        private static int BallingRoundResult(ref string game, int index)
+        {
 
         }
     }
