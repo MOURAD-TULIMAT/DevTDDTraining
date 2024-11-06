@@ -77,7 +77,6 @@ namespace DevTDDTraining.FuorthDay
         {
             int res = 0;
             int strikeBefore = 0;
-            int spareBefore = 0;
             for (int i = 0; i < game.Length; i++)
             {
                 if (game[i] != '|' && game[i] != '-')
@@ -91,11 +90,6 @@ namespace DevTDDTraining.FuorthDay
                             res += score;
                             strikeBefore--;
                         }
-                        if (spareBefore > 0)
-                        {
-                            res += score;
-                            spareBefore--;
-                        }
                     }
                     else if (game[i] == 'X')
                     {
@@ -104,9 +98,8 @@ namespace DevTDDTraining.FuorthDay
                     }
                     else if (game[i] == '/')
                     {
-                        spareBefore = 1;
                         var sub = int.Parse(game.Substring(i-1,1));
-                        res -= 10 - sub;
+                        res += 10 - sub;
                     }
                 }
                 else if (game[i] == '-')
