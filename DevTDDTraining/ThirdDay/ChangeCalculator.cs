@@ -34,6 +34,9 @@ namespace DevTDDTraining.ThirdDay
         [InlineData(200, 300)]
         [InlineData(10, 300)]
         [InlineData(10, 200)]
+        [InlineData(-10, 200)]
+        [InlineData(10, -300)]
+        [InlineData(-10, -200)]
         public void TestErrors(double paid, double cost)
         {
             var calc = new ChangeCalculator();
@@ -46,11 +49,11 @@ namespace DevTDDTraining.ThirdDay
     {
         internal double[] GetChange(double paid, double cost)
         {
-            var changes = new List<double>() { 100, 50, 20, 10, 5, 1, .5, .25, .1, .05, .01 };
-            var res = new List<double>();
             double remainingAmount = paid - cost;
             if (remainingAmount < 0)
                 throw new ArgumentException();
+            var changes = new List<double>() { 100, 50, 20, 10, 5, 1, .5, .25, .1, .05, .01 };
+            var res = new List<double>();
             foreach (var change in changes)
             {
                 while (remainingAmount >= change)
