@@ -33,18 +33,7 @@ namespace DevTDDTraining.ThirdDay
     {
         internal double[] GetChange(double paid, double cost)
         {
-            if (paid == 1100 && cost == 1080)
-            {
-                return new double[] { 20 };
-            }
-            if (paid == 1100 && cost == 1060)
-            {
-                return new double[] { 20,20 };
-            }
-            if (paid == 1100 && cost == 1030)
-            {
-                return new double[] { 50,20 };
-            }
+
             var res = new List<double>();
             double remainingAmount = paid - cost;
             while (remainingAmount >= 100)
@@ -54,7 +43,13 @@ namespace DevTDDTraining.ThirdDay
             }
             if (remainingAmount >= 50)
             {
+                remainingAmount -= 50;
                 res.Add(50);
+            }
+            while (remainingAmount >= 20)
+            {
+                remainingAmount -= 20;
+                res.Add(20);
             }
             return res.ToArray();
         }
