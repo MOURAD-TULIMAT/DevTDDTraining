@@ -55,7 +55,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("1-|-5|--|--|X|11|-3|--|--|--||", 23)]
         [InlineData("X|--|X|--|X|22|X|--|X|33||", 70)]
         [InlineData("22|--|X|5-|X|22|X|-2|X|33||", 78)]
-        [InlineData("22|--|X|5-|X|22|X|-2|--|X||33", 78)]
+        [InlineData("22|--|X|5-|X|22|X|-2|--|X||33", 72)]
         public void TestStrikesBeforeNumerics(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -76,7 +76,7 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("X|X|--|--|--|--|--|--|--|--||", 30)]
         [InlineData("X|--|X|X|--|--|--|--|--|--||", 40)]
-        [InlineData("X|--|--|X|--|--|--|--|--|X||X-", 50)]
+        [InlineData("X|--|--|X|--|--|--|--|--|X||X-", 40)]
         public void TestTwoStrikesBeforMisses(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -86,7 +86,7 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("3/|2-|--|--|--|--|--|--|--|--||", 14)]
         [InlineData("3-|2-|--|--|-/|22|--|--|--|--||", 21)]
-        [InlineData("--|--|--|--|--|--|--|--|--|-/||1", 12)]
+        [InlineData("--|--|--|--|--|--|--|--|--|-/||1", 11)]
         public void TestSpareBeforNumeric(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -97,7 +97,7 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("X|X|1-|--|--|--|--|--|--|--||", 33)]
         [InlineData("X|X|11|--|--|--|--|--|--|--||", 35)]
-        [InlineData("--|--|--|--|--|--|--|--|X|X||11", 35)]
+        [InlineData("--|--|--|--|--|--|--|--|X|X||11", 33)]
         public void TestTwoStrikesBeforNumeric(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -106,8 +106,8 @@ namespace DevTDDTraining.FuorthDay
         }
         [Theory]
         [InlineData("X|X|X|--|--|--|--|--|--|--||", 60)]
-        [InlineData("--|--|--|--|--|--|--|--|X|X||X-", 60)]
-        [InlineData("--|--|--|--|--|--|--|--|--|X||XX", 60)]
+        [InlineData("--|--|--|--|--|--|--|--|X|X||X-", 50)]
+        [InlineData("--|--|--|--|--|--|--|--|--|X||XX", 30)]
         public void TestThreeStrikes(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -119,8 +119,8 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|-/|X|--|--|--|--|--||", 30)]
         [InlineData("--|--|--|-/|X|1-|--|--|--|--||", 32)]
         [InlineData("--|--|--|-/|X|11|--|--|--|--||", 34)]
-        [InlineData("--|--|--|--|--|--|--|--|-/|X||11", 34)]
-        [InlineData("--|--|--|--|--|--|--|--|--|-/||X", 30)]
+        [InlineData("--|--|--|--|--|--|--|--|-/|X||11", 32)]
+        [InlineData("--|--|--|--|--|--|--|--|--|-/||X", 20)]
         public void TestStrikeAfterSpare(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -133,9 +133,17 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|-/|22|--|--|--|--|--|--|--||", 36)]
         [InlineData("X|5/|22|--|--|--|--|--|--|--||", 36)]
         [InlineData("X|5/|X|--|--|--|--|--|--|--||", 50)]
-        [InlineData("--|--|--|--|--|--|--|--|X|5/||2", 34)]
-        [InlineData("--|--|--|--|--|--|--|--|X|5/||X", 50)]
+        [InlineData("--|--|--|--|--|--|--|--|X|5/||2", 32)]
+        [InlineData("--|--|--|--|--|--|--|--|X|5/||X", 40)]
         public void TestSparesAfterStrikes(string game, int expected)
+        {
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
+            res.Should().Be(expected);
+        }
+        [Theory]
+        [InlineData("X|7/|9-|X|-8|8/|-6|X|X|X||81", 167)]
+        public void TestGeneralCases(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
@@ -148,6 +156,10 @@ namespace DevTDDTraining.FuorthDay
         private bool spareBefore = false;
         public int CalculateScore(string game)
         {
+            //if ( game == "X|7/|9-|X|-8|8/|-6|X|X|X||81")
+            //{
+            //    return 167;
+            //}
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
@@ -156,6 +168,10 @@ namespace DevTDDTraining.FuorthDay
                     char currentChar = game[i];
                     char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
                     res += BallingRoundResult(currentChar, nextChar);
+                    if (i > 20 && game[i - 2] == '|')
+                    {
+                        res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
+                    }
                 }
             }
 
@@ -163,10 +179,6 @@ namespace DevTDDTraining.FuorthDay
         }
         private int BallingRoundResult(char first, char? second)
         {
-            if (first == 'X' && second == 'X')
-            {
-                return 50;
-            }
             int res = CalculateRoundWithoutBonuses(first, second);
             if (strikeBefore)
             {
@@ -193,14 +205,12 @@ namespace DevTDDTraining.FuorthDay
         }
         private int CalculateRoundWithoutBonuses(char first, char? second)
         {
-            int res = 0;
-            if (first == 'X' || second == '/')
-                res = 10;
+            if (second == '/')
+                return 10;
             else
             {
-                res = ToInt(first) + ToInt(second);
+                return ToInt(first) + ToInt(second);
             }
-            return res;
         }
         private int ToInt(char? c)
         {
