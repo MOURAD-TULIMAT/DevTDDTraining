@@ -82,7 +82,7 @@ namespace DevTDDTraining.FuorthDay
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
-                if (game[i] != '|')
+                if (game[i] != '|' && (i == 0 || game[i-1] == '|'))
                 {
                     res += BallingRoundResult(game, i);
                 }
@@ -90,26 +90,24 @@ namespace DevTDDTraining.FuorthDay
 
             return res;
         }
-        private int BallingRoundResult(string game, int index)
+        private int BallingRoundResult(char first, char second)
         {
             int res = 0;
 
-            if (game[index] == 'X')
+            if (first == 'X' || second == '/')
                 res = 10;
-            else if (game[index] == '/' )
-                res = 10 - ToInt(game[index-1]);
-            else if(game[index] != '-')
-            {
-                res = ToInt(game[index]);
-            }
+            //else if (game[index] != '-')
+            //{
+            //    res = ToInt(game[index]);
+            //}
 
-            if (strikeBefore > 0 && game[index] != '-')
-                res += ToInt(game[index]);
+            //if (strikeBefore > 0 && game[index] != '-')
+            //    res += ToInt(game[index]);
 
-            if (game[index] == 'X')
-                strikeBefore = 2;
-            else
-                strikeBefore--;
+            //if (game[index] == 'X')
+            //    strikeBefore = 2;
+            //else
+            //    strikeBefore--;
 
             return res;
         }
