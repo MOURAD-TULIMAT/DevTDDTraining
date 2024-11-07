@@ -97,15 +97,9 @@ namespace DevTDDTraining.FuorthDay
     public class BowlingGame
     {
         private int strikeBefore = 0;
+        private int spareBefore = 0;
         public int CalculateScore(string game)
         {
-            if (game == "3/|2-|--|--|--|--|--|--|--|--||")
-                return 14;
-            if (game == "3-|2-|--|--|-/|22|--|--|--|--||")
-                return 21;
-            if (game == "--|--|--|--|--|--|--|--|--|-/||1")
-                return 12;
-
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
@@ -129,15 +123,20 @@ namespace DevTDDTraining.FuorthDay
                 res = ToInt(first) + ToInt(second);
             }
 
-            if (strikeBefore >= 1)
+            if (strikeBefore >= 1 || spareBefore > 0)
                 res += ToInt(first);
             if (strikeBefore == 2)
                 res += ToInt(second);
 
+            if (second == '/')
+                spareBefore = 1;
+            else
+                spareBefore = 0;
+
             if (first == 'X')
                 strikeBefore = 2;
             else
-                strikeBefore -= 2;
+                strikeBefore = 0;
 
             return res;
         }
