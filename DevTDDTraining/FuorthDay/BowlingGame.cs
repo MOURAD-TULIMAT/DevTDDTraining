@@ -176,15 +176,19 @@ namespace DevTDDTraining.FuorthDay
             if (game == "X|X|X|X|X|X|X|X|X|X||X")
                 throw new ArgumentException();
             int res = 0;
+            int roundsCount = 0; 
             for (int i = 0; i < game.Length; i++)
             {
                 if (game[i] != '|' && (i == 0 || game[i - 1] == '|'))
                 {
+                    roundsCount++;
                     char currentChar = game[i];
                     char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
                     res += BallingRoundResult(currentChar, nextChar);
                     if (i > 20 && game[i - 2] == '|')
                     {
+                        if(i + 2 <= game.Length || !nextChar.HasValue)
+                            throw new ArgumentException();
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
                     }
                 }
