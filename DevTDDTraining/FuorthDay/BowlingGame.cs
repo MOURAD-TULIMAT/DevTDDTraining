@@ -140,8 +140,8 @@ namespace DevTDDTraining.FuorthDay
     }
     public class BowlingGame
     {
-        private int strikeBefore = 0;
-        private int spareBefore = 0;
+        private bool strikeBefore = false;
+        private bool spareBefore = false;
         public int CalculateScore(string game)
         {
             if (game == "X|-/|--|--|--|--|--|--|--|--||")
@@ -177,26 +177,27 @@ namespace DevTDDTraining.FuorthDay
                 res = ToInt(first) + ToInt(second);
             }
 
-            if (strikeBefore >= 1)
+            if (strikeBefore)
+            {
                 res += ToInt(first);
-            if (spareBefore > 0)
-                res += ToInt(first);
-            if (strikeBefore == 2)
                 res += ToInt(second);
+            }
+            if (spareBefore)
+                res += ToInt(first);
 
             if (second == '/')
-                spareBefore = 1;
+                spareBefore = true;
             else
-                spareBefore = 0;
+                spareBefore = false;
 
             if (first == 'X')
             {
-                if (strikeBefore == 2)
-                    spareBefore = 1;
-                strikeBefore = 2;
+                if (strikeBefore)
+                    spareBefore = true;
+                strikeBefore = true;
             }
             else
-                strikeBefore = 0;
+                strikeBefore = false;
 
             return res;
         }
