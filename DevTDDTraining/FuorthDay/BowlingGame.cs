@@ -111,12 +111,6 @@ namespace DevTDDTraining.FuorthDay
         private int spareBefore = 0;
         public int CalculateScore(string game)
         {
-            if (game == "X|X|1-|--|--|--|--|--|--|--||")
-                return 33;
-            if (game == "X|X|11|--|--|--|--|--|--|--||")
-                return 35;
-            if (game == "--|--|--|--|--|--|--|--|X|X||11")
-                return 35;
 
             int res = 0;
             for (int i = 0; i < game.Length; i++)
@@ -141,7 +135,9 @@ namespace DevTDDTraining.FuorthDay
                 res = ToInt(first) + ToInt(second);
             }
 
-            if (strikeBefore >= 1 || spareBefore > 0)
+            if (strikeBefore >= 1)
+                res += ToInt(first);
+            if (spareBefore > 0)
                 res += ToInt(first);
             if (strikeBefore == 2)
                 res += ToInt(second);
@@ -152,7 +148,11 @@ namespace DevTDDTraining.FuorthDay
                 spareBefore = 0;
 
             if (first == 'X')
+            {
+                if (strikeBefore == 2)
+                    spareBefore = 1;
                 strikeBefore = 2;
+            }
             else
                 strikeBefore = 0;
 
