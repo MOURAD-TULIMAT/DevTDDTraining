@@ -131,6 +131,10 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|-/|--|--|--|--|--|--|--|--||", 30)]
         [InlineData("X|-/|2-|--|--|--|--|--|--|--||", 34)]
         [InlineData("X|-/|22|--|--|--|--|--|--|--||", 36)]
+        [InlineData("X|5/|22|--|--|--|--|--|--|--||", 36)]
+        [InlineData("X|5/|X|--|--|--|--|--|--|--||", 50)]
+        [InlineData("--|--|--|--|--|--|--|--|X|5/||2", 34)]
+        [InlineData("--|--|--|--|--|--|--|--|X|5/||X", 50)]
         public void TestSparesAfterStrikes(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
