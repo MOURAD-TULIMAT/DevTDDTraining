@@ -83,66 +83,39 @@ namespace DevTDDTraining.FuorthDay
             for (int i = 0; i < game.Length; i++)
             {
                 if (game[i] != '|')
-                    res += BallingRoundResult(ref game, i);
-                //if (game[i] != '|' && game[i] != '-')
-                //{
-                //    int score;
-                //    if (int.TryParse(game.Substring(i, 1), out score))
-                //    {
-                //        res += score;
-                //        if (strikeBefore > 0)
-                //        {
-                //            res += score;
-                //            strikeBefore--;
-                //        }
-                //    }
-                //    else if (game[i] == 'X')
-                //    {
-                //        strikeBefore = 2;
-                //        res += 10;
-                //    }
-                //    else if (game[i] == '/')
-                //    {
-                //        var sub = int.Parse(game.Substring(i - 1, 1));
-                //        res += 10 - sub;
-                //    }
-                //}
-                //else if (game[i] == '-')
-                //    strikeBefore--;
-
+                {
+                    res += BallingRoundResult(game, i);
+                }
             }
 
             return res;
-
         }
-        private int BallingRoundResult(ref string game, int index)
+        private int BallingRoundResult(string game, int index)
         {
             int res = 0;
 
-            if (game[index] == 'X' || game[index] == '/')
+            if (game[index] == 'X')
                 res = 10;
+            else if (game[index] == '/' )
+                res = 10 - ToInt(game[index-1]);
             else if(game[index] != '-')
             {
-                res = (int)game[index] - '0';
+                res = ToInt(game[index]);
             }
-
-            if (game[index] == '/' && game[index-1] != '-')
-                res -= (int)game[index-1] - '0';
 
             if (strikeBefore > 0 && game[index] != '-')
-                res += (int)game[index] - '0';
+                res += ToInt(game[index]);
 
             if (game[index] == 'X')
-            {
                 strikeBefore = 2;
-            }
             else
-            {
                 strikeBefore--;
-            }
 
             return res;
         }
-
+        private int ToInt(char c)
+        {
+            return c - '0';
+        }
     }
 }
