@@ -142,6 +142,9 @@ namespace DevTDDTraining.FuorthDay
             res.Should().Be(expected);
         }
         [Theory]
+        [InlineData("X|X|X|X|X|X|X|X|X|X||XX", 300)]
+        [InlineData("9-|9-|9-|9-|9-|9-|9-|9-|9-|9-||", 90)]
+        [InlineData("5/|5/|5/|5/|5/|5/|5/|5/|5/|5/||5", 150)]
         [InlineData("X|7/|9-|X|-8|8/|-6|X|X|X||81", 167)]
         public void TestGeneralCases(string game, int expected)
         {
@@ -156,10 +159,6 @@ namespace DevTDDTraining.FuorthDay
         private bool spareBefore = false;
         public int CalculateScore(string game)
         {
-            //if ( game == "X|7/|9-|X|-8|8/|-6|X|X|X||81")
-            //{
-            //    return 167;
-            //}
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
