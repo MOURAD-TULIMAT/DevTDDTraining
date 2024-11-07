@@ -175,6 +175,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|X||////")]
         [InlineData("X|X|X|X|X|X|X|X||--")]
         [InlineData("X|X|X|X|X|X|--|--|--|X|X||--")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X|X")]
         [InlineData("X|X|X|X|X|X|X|X|X|X|XX")]
         public void TestWrongInputs(string game)
         {
@@ -197,15 +198,15 @@ namespace DevTDDTraining.FuorthDay
             {
                 if (i == game.Length || game[i] == '|')
                 {
-                    // init
+                    if(i == game.Length && game.Substring(lastPipe - 2, 2) != "||")
+                        throw new ArgumentException();
+
                     var round = game.Substring(lastPipe, i - lastPipe);
                     lastPipe = i + 1;
-                    ValidateRound(round, roundNumber);
                     if (round == "")
-                    {
                         continue;
-                    }
                     roundNumber++;
+                    ValidateRound(round, roundNumber);
 
                     char currentChar = round[0];
                     char? nextChar = round.Length == 1 ? null : round[1];
@@ -267,13 +268,6 @@ namespace DevTDDTraining.FuorthDay
                 (round == "//"))
             {
                 throw new ArgumentException();
-            }
-            if(roundNumber == 10)
-            {
-                if(round == "")
-                    mainRoundsFinished = true;
-                else if(!mainRoundsFinished)
-                    throw new ArgumentException();
             }
             if (roundNumber == 11)
             {
