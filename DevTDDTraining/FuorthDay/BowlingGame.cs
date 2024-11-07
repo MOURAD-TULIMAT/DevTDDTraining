@@ -170,10 +170,8 @@ namespace DevTDDTraining.FuorthDay
         private bool spareBefore = false;
         public int CalculateScore(string game)
         {
-            if (game == "X|X|X|X|X|X|X|X|X|X||")
-                throw new ArgumentException();
             int res = 0;
-            int roundsCount = 0; 
+            int roundsCount = 0;
             for (int i = 0; i < game.Length; i++)
             {
                 if (game[i] != '|' && (i == 0 || game[i - 1] == '|'))
@@ -183,13 +181,16 @@ namespace DevTDDTraining.FuorthDay
                     char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
                     if (i > 20 && game[i - 2] == '|')
                     {
-                        if(strikeBefore && (i + 3 <= game.Length || !nextChar.HasValue))
+                        if (strikeBefore && (i + 3 <= game.Length || !nextChar.HasValue))
                             throw new ArgumentException();
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
                     }
                     res += BallingRoundResult(currentChar, nextChar);
                 }
+
             }
+            if (strikeBefore && roundsCount != 11)
+                throw new ArgumentException();
 
             return res;
         }
