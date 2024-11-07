@@ -109,6 +109,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|--|--|--|--|--|--|--||", 60)]
         [InlineData("--|--|--|--|--|--|--|--|X|X||X-", 50)]
         [InlineData("--|--|--|--|--|--|--|--|--|X||XX", 30)]
+        [InlineData("--|--|--|--|--|--|--|--|--|X||-X", 20)]
         public void TestThreeStrikes(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -165,6 +166,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|---||")]
         [InlineData("X|X|X|X|X|X|X|X|X|X-||")]
         [InlineData("X|X|X|X|X|X|X|X|X|XX||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|-X||")]
         public void TestWrongInputs(string game)
         {
             var bowlingGame = new BowlingGame();
