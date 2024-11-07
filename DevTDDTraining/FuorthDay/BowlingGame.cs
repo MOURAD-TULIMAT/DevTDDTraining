@@ -254,24 +254,21 @@ namespace DevTDDTraining.FuorthDay
         }
         private void ValidateRound(string round, int roundNumber)
         {
-            if (round.Length > 2)
-                throw new ArgumentException();
-            if (round.Length == 1 && round != "X" && roundNumber != 11)
-                throw new ArgumentException();
-            if (round == "-X" && roundNumber != 11)
-                throw new ArgumentException();
-            if (round == "//")
-                throw new ArgumentException();
-            if(roundNumber == 11)
+            if ((round.Length > 2) ||
+                (round.Length == 1 && round != "X" && roundNumber != 11) ||
+                (round == "-X" && roundNumber != 11) ||
+                (round == "//"))
             {
-                if (strikeBefore && round.Length != 2)
+                throw new ArgumentException();
+            }
+            if (roundNumber == 11)
+            {
+                if ((strikeBefore && round.Length != 2) ||
+                    (!strikeBefore && spareBefore && round.Length != 1) ||
+                    (!strikeBefore && !spareBefore && roundNumber > 10))
+                {
                     throw new ArgumentException();
-
-                if (!strikeBefore && spareBefore && round.Length != 1)
-                    throw new ArgumentException();
-
-                if (!strikeBefore && !spareBefore && roundNumber > 10)
-                    throw new ArgumentException();
+                }
             }
         }
         private int ToInt(char? c)
