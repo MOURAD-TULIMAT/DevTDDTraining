@@ -181,10 +181,12 @@ namespace DevTDDTraining.FuorthDay
                 throw new ArgumentException();
             int res = 0;
             int roundsCount = 0;
+            int lastPipe = 0;
             for (int i = 0; i < game.Length; i++)
             {
-                if (game[i] != '|' && (i == 0 || game[i - 1] == '|'))
+                if (game[i] == '|')
                 {
+                    var round = game.Substring(lastPipe + 1, i - lastPipe);
                     roundsCount++;
                     char currentChar = game[i];
                     char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
