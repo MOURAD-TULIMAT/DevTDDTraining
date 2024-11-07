@@ -121,8 +121,6 @@ namespace DevTDDTraining.FuorthDay
         private int spareBefore = 0;
         public int CalculateScore(string game)
         {
-            if (game == "--|--|--|--|--|--|--|--|--|X||XX")
-                return 60;
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
@@ -139,6 +137,10 @@ namespace DevTDDTraining.FuorthDay
         private int BallingRoundResult(char first, char? second)
         {
             int res = 0;
+            if (first == 'X' && second == 'X')
+            {
+                return 50;
+            }
             if (first == 'X' || second == '/')
                 res = 10;
             else
