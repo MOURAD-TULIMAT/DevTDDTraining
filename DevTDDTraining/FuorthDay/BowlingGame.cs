@@ -175,6 +175,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|X||////")]
         [InlineData("X|X|X|X|X|X|X|X||--")]
         [InlineData("X|X|X|X|X|X|--|--|--|X|X||--")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X|XX")]
         public void TestWrongInputs(string game)
         {
             var bowlingGame = new BowlingGame();
@@ -185,6 +186,7 @@ namespace DevTDDTraining.FuorthDay
     {
         private bool strikeBefore = false;
         private bool spareBefore = false;
+        private bool mainRoundsFinished = false;
 
         public int CalculateScore(string game)
         {
@@ -198,10 +200,13 @@ namespace DevTDDTraining.FuorthDay
                     // init
                     var round = game.Substring(lastPipe, i - lastPipe);
                     lastPipe = i + 1;
-                    if (round == "")
-                        continue;
-                    roundNumber++;
                     ValidateRound(round, roundNumber);
+                    if (round == "")
+                    {
+                        mainRoundsFinished = true;
+                        continue;
+                    }
+                    roundNumber++;
 
                     char currentChar = round[0];
                     char? nextChar = round.Length == 1 ? null : round[1];
@@ -263,6 +268,13 @@ namespace DevTDDTraining.FuorthDay
                 (round == "//"))
             {
                 throw new ArgumentException();
+            }
+            if (roundNumber == 10)
+            {
+                if (round == "")
+                    mainRoundsFinished = true;
+                else
+                    throw new ArgumentException();
             }
             if (roundNumber == 11)
             {
