@@ -11,10 +11,14 @@ namespace DevTDDTraining.FuorthDay
 {
     public class BowlingGameTest
     {
+        private BowlingGame bowlingGame;
+        public BowlingGameTest()
+        {
+            bowlingGame = new BowlingGame();
+        }
         [Fact]
         public void TestAllMiss()
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore("--|--|--|--|--|--|--|--|--|--||");
             res.Should().Be(0);
         }
@@ -24,7 +28,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|1-|--|--|--|--|--||", 1)]
         public void TestOneScore(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -34,7 +37,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("11|22|33|44|55|66|77|88|99|56||", 101)]
         public void TestNumericScores(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -47,7 +49,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|X|--|--|--|--|--|--|X||--", 20)]
         public void TestStrikeBeforeMiss(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -59,7 +60,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("22|--|X|5-|X|22|X|-2|--|X||33", 72)]
         public void TestStrikesBeforeNumerics(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -70,7 +70,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|2/|--|--|--|--|--|--|4/||-", 20)]
         public void TestSpareBeforeMiss(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -81,7 +80,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|--|--|--|--|--|X||-X", 20)]
         public void TestTwoStrikesBeforMisses(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -91,7 +89,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|--|--|--|--|--|-/||1", 11)]
         public void TestSpareBeforNumeric(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -101,8 +98,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|11|--|--|--|--|--|--|--||", 35)]
         [InlineData("--|--|--|--|--|--|--|--|X|X||11", 33)]
         public void TestTwoStrikesBeforNumeric(string game, int expected)
-        {
-            var bowlingGame = new BowlingGame();
+        {   
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -112,7 +108,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|--|--|--|--|--|X||XX", 30)]
         public void TestThreeStrikes(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -125,7 +120,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|--|--|--|--|--|-/||X", 20)]
         public void TestStrikeAfterSpare(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -139,7 +133,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|--|--|--|--|X|5/||X", 40)]
         public void TestSparesAfterStrikes(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -150,7 +143,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|7/|9-|X|-8|8/|-6|X|X|X||81", 167)]
         public void TestGeneralCases(string game, int expected)
         {
-            var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -179,7 +171,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|X|XX")]
         public void TestWrongInputs(string game)
         {
-            var bowlingGame = new BowlingGame();
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
         }
     }
@@ -198,7 +189,7 @@ namespace DevTDDTraining.FuorthDay
             {
                 if (i == game.Length || game[i] == '|')
                 {
-                    if(i == game.Length && game.Substring(lastPipe - 2, 2) != "||")
+                    if (i == game.Length && game.Substring(lastPipe - 2, 2) != "||")
                         throw new ArgumentException();
 
                     var round = game.Substring(lastPipe, i - lastPipe);
