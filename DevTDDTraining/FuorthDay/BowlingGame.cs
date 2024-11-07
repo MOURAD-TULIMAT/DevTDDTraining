@@ -203,7 +203,6 @@ namespace DevTDDTraining.FuorthDay
                     ValidateRound(round, roundNumber);
                     if (round == "")
                     {
-                        mainRoundsFinished = true;
                         continue;
                     }
                     roundNumber++;
@@ -269,11 +268,11 @@ namespace DevTDDTraining.FuorthDay
             {
                 throw new ArgumentException();
             }
-            if (roundNumber == 10)
+            if(roundNumber == 10)
             {
-                if (round == "")
+                if(round == "")
                     mainRoundsFinished = true;
-                else
+                else if(!mainRoundsFinished)
                     throw new ArgumentException();
             }
             if (roundNumber == 11)
