@@ -163,6 +163,8 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|--||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|-||")]
         [InlineData("X|X|X|X|X|X|X|X|X|---||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X-||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|XX||")]
         public void TestWrongInputs(string game)
         {
             var bowlingGame = new BowlingGame();
@@ -173,12 +175,13 @@ namespace DevTDDTraining.FuorthDay
     {
         private bool strikeBefore = false;
         private bool spareBefore = false;
+
         public int CalculateScore(string game)
         {
-            if (game == "X|X|X|X|X|X|X|X|X|-||")
+            if( game == "X|X|X|X|X|X|X|X|X|-X||")
+            {
                 throw new ArgumentException();
-            if (game == "X|X|X|X|X|X|X|X|X|---||")
-                throw new ArgumentException();
+            }
             int res = 0;
             int roundsCount = 0;
             int lastPipe = 0;
@@ -192,9 +195,9 @@ namespace DevTDDTraining.FuorthDay
                     if (round == "")
                         continue;
                     roundsCount++;
-                    if(round.Length > 2)
+                    if (round.Length > 2)
                         throw new ArgumentException();
-                    if(round.Length == 1 && round != "X" && roundsCount != 11)
+                    if (round.Length == 1 && round != "X" && roundsCount != 11)
                         throw new ArgumentException();
 
                     char currentChar = round[0];
