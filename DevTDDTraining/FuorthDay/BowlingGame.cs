@@ -103,7 +103,7 @@ namespace DevTDDTraining.FuorthDay
                 res = ToInt(first) + ToInt(second);
             }
 
-            if (strikeBefore == 1)
+            if (strikeBefore >= 1)
                 res += ToInt(first);
             if (strikeBefore == 2)
                 res += ToInt(second);
