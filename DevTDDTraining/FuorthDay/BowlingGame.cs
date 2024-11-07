@@ -89,12 +89,6 @@ namespace DevTDDTraining.FuorthDay
         private int strikeBefore = 0;
         public int CalculateScore(string game)
         {
-            if (game == "X|X|--|--|--|--|--|--|--|--||")
-                return 30;
-            if (game == "X|--|X|X|--|--|--|--|--|--||")
-                return 40;
-            if (game == "X|--|--|X|--|--|--|--|--|X||X-")
-                return 50;
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
@@ -132,7 +126,11 @@ namespace DevTDDTraining.FuorthDay
         }
         private int ToInt(char? c)
         {
-            return c == '-' || c == null ? 0 : (c.Value - '0');
+            if(c == '-' || c == null)
+                return 0;
+            if (c == 'X')
+                return 10;
+            return (c.Value - '0');
         }
     }
 }
