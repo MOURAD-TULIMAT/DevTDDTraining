@@ -78,6 +78,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|--|--|--|--|--|--|--|--||", 30)]
         [InlineData("X|--|X|X|--|--|--|--|--|--||", 40)]
         [InlineData("X|--|--|X|--|--|--|--|--|X||X-", 40)]
+        [InlineData("--|--|--|--|--|--|--|--|--|X||-X", 20)]
         public void TestTwoStrikesBeforMisses(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -109,7 +110,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|--|--|--|--|--|--|--||", 60)]
         [InlineData("--|--|--|--|--|--|--|--|X|X||X-", 50)]
         [InlineData("--|--|--|--|--|--|--|--|--|X||XX", 30)]
-        [InlineData("--|--|--|--|--|--|--|--|--|X||-X", 20)]
         public void TestThreeStrikes(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -155,15 +155,15 @@ namespace DevTDDTraining.FuorthDay
             res.Should().Be(expected);
         }
         [Theory]
+        [InlineData("X|X|X|X|X|X|X|X|X|X||X")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||XXX")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||XXXX")]
-        [InlineData("X|X|X|X|X|X|X|X|X|X||X")]
+        [InlineData("X|X|X|X|X|X|X|X|X|-/||")]
         [InlineData("X|X|X|X|X|X|X|X|X|-/||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|-/||XXX")]
-        [InlineData("X|X|X|X|X|X|X|X|X|-/||")]
-        [InlineData("X|X|X|X|X|X|X|X|X|--||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|-||")]
         [InlineData("X|X|X|X|X|X|X|X|X|---||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|--||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|X-||")]
         [InlineData("X|X|X|X|X|X|X|X|X|XX||")]
         [InlineData("X|X|X|X|X|X|X|X|X|-X||")]
@@ -180,10 +180,6 @@ namespace DevTDDTraining.FuorthDay
 
         public int CalculateScore(string game)
         {
-            if( game == "X|X|X|X|X|X|X|X|X|-X||")
-            {
-                throw new ArgumentException();
-            }
             int res = 0;
             int roundsCount = 0;
             int lastPipe = 0;
@@ -200,6 +196,8 @@ namespace DevTDDTraining.FuorthDay
                     if (round.Length > 2)
                         throw new ArgumentException();
                     if (round.Length == 1 && round != "X" && roundsCount != 11)
+                        throw new ArgumentException();
+                    if(round == "-X" && roundsCount != 11)
                         throw new ArgumentException();
 
                     char currentChar = round[0];
