@@ -182,31 +182,31 @@ namespace DevTDDTraining.FuorthDay
             int res = 0;
             int roundsCount = 0;
             int lastPipe = 0;
-            for (int i = 0; i < game.Length; i++)
+            for (int i = 0; i <= game.Length; i++)
             {
-                if (game[i] == '|')
+                if (i == game.Length || game[i] == '|')
                 {
                     // init
                     var round = game.Substring(lastPipe, i - lastPipe);
                     lastPipe = i + 1;
+                    if (round == "")
+                        continue;
                     roundsCount++;
-
                     if(round.Length > 2)
                         throw new ArgumentException();
                     if(round.Length == 1 && round != "X" && roundsCount != 11)
                         throw new ArgumentException();
 
-                    char currentChar = game[i];
-                    char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
-                    if (i > 20 && game[i - 2] == '|')
-                    {
-                        var twoBosunBallsExist = i + 3 <= game.Length || !nextChar.HasValue;
+                    char currentChar = round[0];
+                    char? nextChar = round.Length == 1 ? null : round[1];
 
-                        if (strikeBefore && twoBosunBallsExist)
+                    if (i > 20 && roundsCount == 11)
+                    {
+
+                        if (strikeBefore && round.Length != 2)
                             throw new ArgumentException();
 
-                        var oneBonusBallExist = i + 2 <= game.Length;
-                        if (!strikeBefore && spareBefore && oneBonusBallExist)
+                        if (!strikeBefore && spareBefore && round.Length != 1)
                             throw new ArgumentException();
 
                         if (!strikeBefore && !spareBefore && roundsCount > 10)
@@ -215,6 +215,7 @@ namespace DevTDDTraining.FuorthDay
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
                     }
                     res += BallingRoundResult(currentChar, nextChar);
+
                 }
 
             }
