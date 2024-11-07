@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using DevTDDTraining.SecondDay;
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -151,6 +152,14 @@ namespace DevTDDTraining.FuorthDay
             var bowlingGame = new BowlingGame();
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
+        }
+        [Theory]
+        [InlineData("X|X|X|X|X|X|X|X|X|X||XXX")]
+        public void TestWrongInputs(string game)
+        {
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
+            Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
         }
     }
     public class BowlingGame
