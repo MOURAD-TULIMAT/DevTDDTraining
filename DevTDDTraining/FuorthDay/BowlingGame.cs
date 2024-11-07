@@ -186,8 +186,16 @@ namespace DevTDDTraining.FuorthDay
             {
                 if (game[i] == '|')
                 {
-                    var round = game.Substring(lastPipe + 1, i - lastPipe);
+                    // init
+                    var round = game.Substring(lastPipe, i - lastPipe);
+                    lastPipe = i + 1;
                     roundsCount++;
+
+                    if(round.Length > 2)
+                        throw new ArgumentException();
+                    if(round.Length == 1 && round != "X" && roundsCount != 11)
+                        throw new ArgumentException();
+
                     char currentChar = game[i];
                     char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
                     if (i > 20 && game[i - 2] == '|')
@@ -201,7 +209,7 @@ namespace DevTDDTraining.FuorthDay
                         if (!strikeBefore && spareBefore && oneBonusBallExist)
                             throw new ArgumentException();
 
-                        if(!strikeBefore && !spareBefore && roundsCount > 10)
+                        if (!strikeBefore && !spareBefore && roundsCount > 10)
                             throw new ArgumentException();
 
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
