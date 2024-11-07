@@ -86,6 +86,7 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("3/|2-|--|--|--|--|--|--|--|--||", 14)]
         [InlineData("3-|2-|--|--|-/|22|--|--|--|--||", 21)]
+        [InlineData("--|--|--|--|--|--|--|--|--|-/||1", 12)]
         public void TestSpareBeforNumeric(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -100,9 +101,10 @@ namespace DevTDDTraining.FuorthDay
         {
             if (game == "3/|2-|--|--|--|--|--|--|--|--||")
                 return 14;
-            
             if (game == "3-|2-|--|--|-/|22|--|--|--|--||")
                 return 21;
+            if (game == "--|--|--|--|--|--|--|--|--|-/||1")
+                return 12;
 
             int res = 0;
             for (int i = 0; i < game.Length; i++)
