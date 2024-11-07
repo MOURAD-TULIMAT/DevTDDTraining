@@ -158,6 +158,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|X||XXXX")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||X")]
         [InlineData("X|X|X|X|X|X|X|X|X|-/||XX")]
+        [InlineData("X|X|X|X|X|X|X|X|X|-/||XXX")]
         [InlineData("X|X|X|X|X|X|X|X|X|-/||")]
         public void TestWrongInputs(string game)
         {
@@ -182,10 +183,15 @@ namespace DevTDDTraining.FuorthDay
                     char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
                     if (i > 20 && game[i - 2] == '|')
                     {
-                        if (strikeBefore && (i + 3 <= game.Length || !nextChar.HasValue))
+                        var twoBosunBallsExist = i + 3 <= game.Length || !nextChar.HasValue;
+
+                        if (strikeBefore && twoBosunBallsExist)
                             throw new ArgumentException();
-                        else if (!strikeBefore && spareBefore && (i + 2 <= game.Length || nextChar.HasValue))
+
+                        var oneBonusBallExist = i + 2 <= game.Length;
+                        if (!strikeBefore && spareBefore && oneBonusBallExist)
                             throw new ArgumentException();
+
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
                     }
                     res += BallingRoundResult(currentChar, nextChar);
