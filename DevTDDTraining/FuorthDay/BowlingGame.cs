@@ -84,13 +84,15 @@ namespace DevTDDTraining.FuorthDay
             {
                 if (game[i] != '|' && (i == 0 || game[i - 1] == '|'))
                 {
-                    //res += BallingRoundResult(game, i);
+                    char currentChar = game[i];
+                    char? nextChar = (i == game.Length - 1 || game[i + 1] == '|') ? (char?)null : game[i + 1];
+                    res += BallingRoundResult(currentChar, nextChar);
                 }
             }
 
             return res;
         }
-        private int BallingRoundResult(char first, char second)
+        private int BallingRoundResult(char first, char? second)
         {
             int res = 0;
 
@@ -106,16 +108,16 @@ namespace DevTDDTraining.FuorthDay
             if (strikeBefore == 2)
                 res += ToInt(second);
 
-            //if (game[index] == 'X')
-            //    strikeBefore = 2;
-            //else
-            //    strikeBefore--;
+            if (first == 'X')
+                strikeBefore = 2;
+            else
+                strikeBefore -= 2;
 
             return res;
         }
-        private int ToInt(char c)
+        private int ToInt(char? c)
         {
-            return c == '-' ? 0 : (c - '0');
+            return c == '-' || c == null ? 0 : (c.Value - '0');
         }
     }
 }
