@@ -184,7 +184,7 @@ namespace DevTDDTraining.FuorthDay
                     {
                         if (strikeBefore && (i + 3 <= game.Length || !nextChar.HasValue))
                             throw new ArgumentException();
-                        else if (!strikeBefore  && spareBefore && (i + 2 <= game.Length || nextChar.HasValue))
+                        else if (!strikeBefore && spareBefore && (i + 2 <= game.Length || nextChar.HasValue))
                             throw new ArgumentException();
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
                     }
@@ -192,7 +192,7 @@ namespace DevTDDTraining.FuorthDay
                 }
 
             }
-            if ((strikeBefore || spareBefore)&& roundsCount != 11)
+            if ((strikeBefore || spareBefore) && roundsCount != 11)
                 throw new ArgumentException();
 
             return res;
