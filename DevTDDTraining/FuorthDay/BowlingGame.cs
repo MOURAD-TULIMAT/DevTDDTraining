@@ -114,6 +114,16 @@ namespace DevTDDTraining.FuorthDay
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
+        [Theory]
+        [InlineData("-/|X|--|--|--|--|--|--|--|--||", 30)]
+        [InlineData("--|--|--|-/|X|--|--|--|--|--||", 30)]
+        [InlineData("--|--|--|-/|X|1-|--|--|--|--||", 32)]
+        public void TestStrikeAfterSpare(string game, int expected)
+        {
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
+            res.Should().Be(expected);
+        }
     }
     public class BowlingGame
     {
