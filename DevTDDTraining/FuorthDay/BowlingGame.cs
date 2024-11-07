@@ -186,7 +186,7 @@ namespace DevTDDTraining.FuorthDay
         public int CalculateScore(string game)
         {
             int res = 0;
-            int roundsCount = 0;
+            int roundNumber = 0;
             int lastPipe = 0;
             for (int i = 0; i <= game.Length; i++)
             {
@@ -197,31 +197,14 @@ namespace DevTDDTraining.FuorthDay
                     lastPipe = i + 1;
                     if (round == "")
                         continue;
-                    roundsCount++;
-                    if (round.Length > 2)
-                        throw new ArgumentException();
-                    if (round.Length == 1 && round != "X" && roundsCount != 11)
-                        throw new ArgumentException();
-                    if (round == "-X" && roundsCount != 11)
-                        throw new ArgumentException();
-                    if(round == "//")
-                        throw new ArgumentException();
+                    roundNumber++;
+                    ValidateRound(round, roundNumber);
 
                     char currentChar = round[0];
                     char? nextChar = round.Length == 1 ? null : round[1];
 
-                    if (i > 20 && roundsCount == 11)
+                    if (i > 20 && roundNumber == 11)
                     {
-
-                        if (strikeBefore && round.Length != 2)
-                            throw new ArgumentException();
-
-                        if (!strikeBefore && spareBefore && round.Length != 1)
-                            throw new ArgumentException();
-
-                        if (!strikeBefore && !spareBefore && roundsCount > 10)
-                            throw new ArgumentException();
-
                         res -= CalculateRoundWithoutBonuses(currentChar, nextChar);
                     }
                     res += BallingRoundResult(currentChar, nextChar);
@@ -229,7 +212,7 @@ namespace DevTDDTraining.FuorthDay
                 }
 
             }
-            if ((strikeBefore || spareBefore) && roundsCount != 11)
+            if ((strikeBefore || spareBefore) && roundNumber != 11)
                 throw new ArgumentException();
 
             return res;
@@ -267,6 +250,28 @@ namespace DevTDDTraining.FuorthDay
             else
             {
                 return ToInt(first) + ToInt(second);
+            }
+        }
+        private void ValidateRound(string round, int roundNumber)
+        {
+            if (round.Length > 2)
+                throw new ArgumentException();
+            if (round.Length == 1 && round != "X" && roundNumber != 11)
+                throw new ArgumentException();
+            if (round == "-X" && roundNumber != 11)
+                throw new ArgumentException();
+            if (round == "//")
+                throw new ArgumentException();
+            if(roundNumber == 11)
+            {
+                if (strikeBefore && round.Length != 2)
+                    throw new ArgumentException();
+
+                if (!strikeBefore && spareBefore && round.Length != 1)
+                    throw new ArgumentException();
+
+                if (!strikeBefore && !spareBefore && roundNumber > 10)
+                    throw new ArgumentException();
             }
         }
         private int ToInt(char? c)
