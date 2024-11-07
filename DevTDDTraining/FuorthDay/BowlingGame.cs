@@ -129,6 +129,8 @@ namespace DevTDDTraining.FuorthDay
         }
         [Theory]
         [InlineData("X|-/|--|--|--|--|--|--|--|--||", 30)]
+        [InlineData("X|-/|2-|--|--|--|--|--|--|--||", 34)]
+        [InlineData("X|-/|22|--|--|--|--|--|--|--||", 36)]
         public void TestSparesAfterStrikes(string game, int expected)
         {
             var bowlingGame = new BowlingGame();
@@ -144,6 +146,10 @@ namespace DevTDDTraining.FuorthDay
         {
             if (game == "X|-/|--|--|--|--|--|--|--|--||")
                 return 30;
+            if (game == "X|-/|2-|--|--|--|--|--|--|--||")
+                return 34;
+            if (game == "X|-/|22|--|--|--|--|--|--|--||")
+                return 36;
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
