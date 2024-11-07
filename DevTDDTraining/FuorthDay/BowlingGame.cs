@@ -172,6 +172,9 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|133||")]
         [InlineData("X|X|X|X|X|X|X|X|X|//||")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||//")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X||////")]
+        [InlineData("X|X|X|X|X|X|X|X||--")]
+        [InlineData("X|X|X|X|X|X|--|--|--|X|X||--")]
         public void TestWrongInputs(string game)
         {
             var bowlingGame = new BowlingGame();
@@ -212,7 +215,7 @@ namespace DevTDDTraining.FuorthDay
                 }
 
             }
-            if ((strikeBefore || spareBefore) && roundNumber != 11)
+            if ((strikeBefore || spareBefore) && roundNumber != 11 || roundNumber < 10)
                 throw new ArgumentException();
 
             return res;
