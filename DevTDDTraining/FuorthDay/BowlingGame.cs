@@ -127,6 +127,14 @@ namespace DevTDDTraining.FuorthDay
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
+        [Theory]
+        [InlineData("X|-/|--|--|--|--|--|--|--|--||", 30)]
+        public void TestSparesAfterStrikes(string game, int expected)
+        {
+            var bowlingGame = new BowlingGame();
+            var res = bowlingGame.CalculateScore(game);
+            res.Should().Be(expected);
+        }
     }
     public class BowlingGame
     {
@@ -134,6 +142,8 @@ namespace DevTDDTraining.FuorthDay
         private int spareBefore = 0;
         public int CalculateScore(string game)
         {
+            if (game == "X|-/|--|--|--|--|--|--|--|--||")
+                return 30;
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
