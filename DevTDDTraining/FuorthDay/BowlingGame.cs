@@ -144,12 +144,6 @@ namespace DevTDDTraining.FuorthDay
         private bool spareBefore = false;
         public int CalculateScore(string game)
         {
-            if (game == "X|-/|--|--|--|--|--|--|--|--||")
-                return 30;
-            if (game == "X|-/|2-|--|--|--|--|--|--|--||")
-                return 34;
-            if (game == "X|-/|22|--|--|--|--|--|--|--||")
-                return 36;
             int res = 0;
             for (int i = 0; i < game.Length; i++)
             {
@@ -165,22 +159,14 @@ namespace DevTDDTraining.FuorthDay
         }
         private int BallingRoundResult(char first, char? second)
         {
-            int res = 0;
             if (first == 'X' && second == 'X')
             {
                 return 50;
             }
-            if (first == 'X' || second == '/')
-                res = 10;
-            else
-            {
-                res = ToInt(first) + ToInt(second);
-            }
-
+            int res = CalculateRoundWithoutBonuses(first, second);
             if (strikeBefore)
             {
-                res += ToInt(first);
-                res += ToInt(second);
+                res += CalculateRoundWithoutBonuses(first, second);
             }
             if (spareBefore)
                 res += ToInt(first);
@@ -199,6 +185,17 @@ namespace DevTDDTraining.FuorthDay
             else
                 strikeBefore = false;
 
+            return res;
+        }
+        private int CalculateRoundWithoutBonuses(char first, char? second)
+        {
+            int res = 0;
+            if (first == 'X' || second == '/')
+                res = 10;
+            else
+            {
+                res = ToInt(first) + ToInt(second);
+            }
             return res;
         }
         private int ToInt(char? c)
