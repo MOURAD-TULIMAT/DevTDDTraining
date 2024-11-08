@@ -176,6 +176,8 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("")]
         [InlineData("|")]
         [InlineData("X")]
+        [InlineData("-")]
+        [InlineData("--")]
         public void TestWrongInputs(string game)
         {
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
@@ -190,8 +192,14 @@ namespace DevTDDTraining.FuorthDay
         public int CalculateScore(string game)
         {
             if (game == "")
-                throw new ArgumentException(); 
+                throw new ArgumentException();
+            if (game == "|")
+                throw new ArgumentException();
             if (game == "X")
+                throw new ArgumentException();
+            if (game == "-")
+                throw new ArgumentException();
+            if (game == "--")
                 throw new ArgumentException();
             int res = 0;
             int roundNumber = 0;
