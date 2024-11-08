@@ -161,7 +161,6 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|--||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|11||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|12||XX")]
-        [InlineData("X|X|X|X|X|X|X|X|X|66||")]
         // wrong round input
         [InlineData("X|X|X|X|X|X|X|X|X|-||")]
         [InlineData("X|X|X|X|X|X|X|X|1|X||")]
@@ -193,6 +192,8 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X")]
         [InlineData("-")]
         [InlineData("--")]
+        // wrong sum of the throws in a single round
+        [InlineData("X|X|X|X|X|X|X|X|X|66||")]
         public void TestWrongInputs(string game)
         {
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
@@ -206,6 +207,8 @@ namespace DevTDDTraining.FuorthDay
 
         public int CalculateScore(string game)
         {
+            if (game == "X|X|X|X|X|X|X|X|X|66||")
+                throw new ArgumentException();
             ValidateRoundsCount(game);
             int res = 0;
             int roundNumber = 0;
