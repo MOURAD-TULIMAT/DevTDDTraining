@@ -210,8 +210,6 @@ namespace DevTDDTraining.FuorthDay
 
         public int CalculateScore(string game)
         {
-            if (game == "X|X|X|X|X|X|X|X|X|66||" || game == "X|X|X|X|X|X|X|X|X|29||" || game == "--|--|--|--|--|--|--|--|99|--||" || game == "--|--|--|--|--|--|--|--|--|X||77")
-                throw new ArgumentException();
             ValidateRoundsCount(game);
             int res = 0;
             int roundNumber = 0;
@@ -278,7 +276,9 @@ namespace DevTDDTraining.FuorthDay
                 return 10;
             else
             {
-                return ToInt(first) + ToInt(second);
+                var res =  ToInt(first) + ToInt(second);
+                ValidateRoundSum(res); 
+                return res;
             }
         }
 
@@ -296,6 +296,11 @@ namespace DevTDDTraining.FuorthDay
         #endregion caculators
 
         #region validators
+        private void ValidateRoundSum(int sum)
+        {
+            if (sum > 10 && sum != 20)
+                throw new ArgumentException();
+        }
         // check if the digit throw is a valide number
         private void ValidateThrow(int res)
         {
