@@ -3,6 +3,7 @@ using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -146,33 +147,47 @@ namespace DevTDDTraining.FuorthDay
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
+
         [Theory]
+        // wrong number of bonuses after a strike
         [InlineData("X|X|X|X|X|X|X|X|X|X||X")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||XXX")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||XXXX")]
+        // wrong number of bonuses after a spare
         [InlineData("X|X|X|X|X|X|X|X|X|-/||")]
         [InlineData("X|X|X|X|X|X|X|X|X|-/||XX")]
         [InlineData("X|X|X|X|X|X|X|X|X|-/||XXX")]
-        [InlineData("X|X|X|X|X|X|X|X|X|-||")]
-        [InlineData("X|X|X|X|X|X|X|X|X|---||")]
+        // wrong number of bonuses after a miss
         [InlineData("X|X|X|X|X|X|X|X|X|--||XX")]
-        [InlineData("X|X|X|X|X|X|X|X|X|X-||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|11||XX")]
+        [InlineData("X|X|X|X|X|X|X|X|X|12||XX")]
+        [InlineData("X|X|X|X|X|X|X|X|X|66||")]
+        // wrong round input
+        [InlineData("X|X|X|X|X|X|X|X|X|-||")]
+        [InlineData("X|X|X|X|X|X|X|X|1|X||")]
+        [InlineData("X|/|X|X|X|X|X|X|X|X||")]
         [InlineData("X|X|X|X|X|X|X|X|X|XX||")]
         [InlineData("X|X|X|X|X|X|X|X|X|-X||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X-||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|---||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|//||1")]
         [InlineData("X|X|X|X|X|X|X|X|X|||")]
-        [InlineData("X|X|X|X|X|X|X|X|X|s||")]
         [InlineData("X|X|X|X|X|X|X|X|X|133||")]
+        // wrong formats
+        [InlineData("X|X|X|X|X|X|X|X|X|s||")]
         [InlineData("X|X|X|X|X|X|X|X|X|//||")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||//")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||////")]
-        [InlineData("X|X|X|X|X|X|X|X||--")]
-        [InlineData("X|X|X|X|X|X|--|--|--|X|X||--")]
-        [InlineData("X|X|X|X|X|X|X|X|X|X|X")]
-        [InlineData("X|X|X|X|X|X|X|X|X|ss||")]
         [InlineData("X|X|X|X|X|X|X|X|X|X||ss")]
+        [InlineData("X|X|X|X|X|X|X|X|X|ss||")]
         [InlineData("X|X|X|X|X|X|X|X|X|s/||-")]
         [InlineData("X|X|X|X|X|X|X|X|X|sX||-")]
         [InlineData("X|X|X|X|X|X|X|X|X|Xs||-")]
+        // wrong number of rounds
+        [InlineData("X|X|X|X|X|X|X|X||--")]
+        [InlineData("X|X|X|X|X|X|--|--|--|X|X||--")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X|X")]
+        // zero and one round inputs
         [InlineData("")]
         [InlineData("|")]
         [InlineData("X")]
@@ -191,16 +206,7 @@ namespace DevTDDTraining.FuorthDay
 
         public int CalculateScore(string game)
         {
-            if (game == "")
-                throw new ArgumentException();
-            if (game == "|")
-                throw new ArgumentException();
-            if (game == "X")
-                throw new ArgumentException();
-            if (game == "-")
-                throw new ArgumentException();
-            if (game == "--")
-                throw new ArgumentException();
+            ValidateRoundsCount(game);
             int res = 0;
             int roundNumber = 0;
             int lastPipe = 0;
@@ -230,11 +236,10 @@ namespace DevTDDTraining.FuorthDay
                 }
 
             }
-            if ((strikeBefore || spareBefore) && roundNumber != 11 || roundNumber < 10)
-                throw new ArgumentException();
-
+            Validate11thRoundLength(roundNumber);
             return res;
         }
+        #region caculators
         private int BallingRoundResult(char first, char? second)
         {
             int res = CalculateRoundWithoutBonuses(first, second);
@@ -270,6 +275,27 @@ namespace DevTDDTraining.FuorthDay
                 return ToInt(first) + ToInt(second);
             }
         }
+
+        private int ToInt(char? c)
+        {
+            if (c == '-' || c == null)
+                return 0;
+            if (c == 'X')
+                return 10;
+
+            int res = c.Value - '0';
+            ValidateThrow(res);
+            return res;
+        }
+        #endregion caculators
+
+        #region validators
+        // check if the digit throw is a valide number
+        private void ValidateThrow(int res)
+        {
+            if (res < 1 || res > 9)
+                throw new ArgumentException();
+        }
         private void ValidateRound(string round, int roundNumber)
         {
             if ((round.Length > 2) ||
@@ -289,17 +315,19 @@ namespace DevTDDTraining.FuorthDay
                 }
             }
         }
-        private int ToInt(char? c)
-        {
-            if (c == '-' || c == null)
-                return 0;
-            if (c == 'X')
-                return 10;
 
-            int res = c.Value - '0';
-            if (res < 1 || res > 9)
+        private void ValidateRoundsCount(string game)
+        {
+            if (game.Count(x => x == '|') != 11)
                 throw new ArgumentException();
-            return res;
+            int length = game.Length;
         }
+        private void Validate11thRoundLength(int roundNumber)
+        {
+
+             if ((strikeBefore || spareBefore) && roundNumber != 11 || roundNumber < 10)
+                throw new ArgumentException();
+        }
+        #endregion validators
     }
 }
