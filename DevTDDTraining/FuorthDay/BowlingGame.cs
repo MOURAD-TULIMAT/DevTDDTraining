@@ -196,6 +196,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|66||")]
         [InlineData("X|X|X|X|X|X|X|X|X|29||")]
         [InlineData("--|--|--|--|--|--|--|--|99|--||")]
+        [InlineData("--|--|--|--|--|--|--|--|--|X||77")]
         public void TestWrongInputs(string game)
         {
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
@@ -209,7 +210,7 @@ namespace DevTDDTraining.FuorthDay
 
         public int CalculateScore(string game)
         {
-            if (game == "X|X|X|X|X|X|X|X|X|66||" || game == "X|X|X|X|X|X|X|X|X|29||")
+            if (game == "X|X|X|X|X|X|X|X|X|66||" || game == "X|X|X|X|X|X|X|X|X|29||" || game == "--|--|--|--|--|--|--|--|99|--||" || game == "--|--|--|--|--|--|--|--|--|X||77")
                 throw new ArgumentException();
             ValidateRoundsCount(game);
             int res = 0;
