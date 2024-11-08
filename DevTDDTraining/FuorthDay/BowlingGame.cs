@@ -197,6 +197,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X|X|29||")]
         [InlineData("--|--|--|--|--|--|--|--|99|--||")]
         [InlineData("--|--|--|--|--|--|--|--|--|X||77")]
+        [InlineData("11|22|33|44|55|66|77|88|99|56||")]
         public void TestWrongInputs(string game)
         {
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
