@@ -35,7 +35,6 @@ namespace DevTDDTraining.FuorthDay
         [Theory]
         [InlineData("1-|-5|--|--|--|--|-3|--|--|--||", 9)]
         [InlineData("1-|-2|--|--|2-|--|2-|--|--|--||", 7)]
-        [InlineData("11|22|33|44|55|66|77|88|99|56||", 101)]
         public void TestNumericScores(string game, int expected)
         {
             var res = bowlingGame.CalculateScore(game);
@@ -99,7 +98,7 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|11|--|--|--|--|--|--|--||", 35)]
         [InlineData("--|--|--|--|--|--|--|--|X|X||11", 33)]
         public void TestTwoStrikesBeforNumeric(string game, int expected)
-        {   
+        {
             var res = bowlingGame.CalculateScore(game);
             res.Should().Be(expected);
         }
@@ -198,6 +197,10 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("--|--|--|--|--|--|--|--|99|--||")]
         [InlineData("--|--|--|--|--|--|--|--|--|X||77")]
         [InlineData("11|22|33|44|55|66|77|88|99|56||")]
+        // round adds up ten but is not a spare
+        [InlineData("--|--|--|--|--|--|--|--|91|--||")]
+        [InlineData("--|--|--|--|--|--|--|--|46|--||")]
+        [InlineData("--|--|--|--|--|--|--|--|--|--||37")]
         public void TestWrongInputs(string game)
         {
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
@@ -277,8 +280,8 @@ namespace DevTDDTraining.FuorthDay
                 return 10;
             else
             {
-                var res =  ToInt(first) + ToInt(second);
-                ValidateRoundSum(res); 
+                var res = ToInt(first) + ToInt(second);
+                ValidateRoundSum(res, first, second);
                 return res;
             }
         }
@@ -297,9 +300,12 @@ namespace DevTDDTraining.FuorthDay
         #endregion caculators
 
         #region validators
-        private void ValidateRoundSum(int sum)
+        private void ValidateRoundSum(int sum, char first, char? second)
         {
-            if (sum > 10 && sum != 20)
+            if (first == 'X' || second == 'X')
+                return;
+
+            if (sum > 9)
                 throw new ArgumentException();
         }
         // check if the digit throw is a valide number
@@ -337,7 +343,7 @@ namespace DevTDDTraining.FuorthDay
         private void Validate11thRoundLength(int roundNumber)
         {
 
-             if ((strikeBefore || spareBefore) && roundNumber != 11 || roundNumber < 10)
+            if ((strikeBefore || spareBefore) && roundNumber != 11 || roundNumber < 10)
                 throw new ArgumentException();
         }
         #endregion validators
