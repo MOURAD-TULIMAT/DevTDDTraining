@@ -168,7 +168,11 @@ namespace DevTDDTraining.FuorthDay
         [InlineData("X|X|X|X|X|X|X|X||--")]
         [InlineData("X|X|X|X|X|X|--|--|--|X|X||--")]
         [InlineData("X|X|X|X|X|X|X|X|X|X|X")]
-        [InlineData("X|X|X|X|X|X|X|X|X|X|XX")]
+        [InlineData("X|X|X|X|X|X|X|X|X|ss||")]
+        [InlineData("X|X|X|X|X|X|X|X|X|X||ss")]
+        [InlineData("X|X|X|X|X|X|X|X|X|s/||-")]
+        [InlineData("X|X|X|X|X|X|X|X|X|sX||-")]
+        [InlineData("X|X|X|X|X|X|X|X|X|Xs||-")]
         public void TestWrongInputs(string game)
         {
             Assert.Throws<ArgumentException>(() => bowlingGame.CalculateScore(game));
@@ -276,7 +280,11 @@ namespace DevTDDTraining.FuorthDay
                 return 0;
             if (c == 'X')
                 return 10;
-            return (c.Value - '0');
+
+            int res = c.Value - '0';
+            if (res < 1 || res > 9)
+                throw new ArgumentException();
+            return res;
         }
     }
 }
