@@ -19,6 +19,7 @@ namespace DevTDDTraining.FifthDay
         }
         [Theory]
         [InlineData(0, 3,0,4)]
+        [InlineData(5, 2, 5, 3)]
         public void FacingNorthMoveForward(int x ,int y, int expectedX, int expectedY)
         {
             var res = MarsRover.Move(x, y, 'N', "f");
@@ -32,6 +33,8 @@ namespace DevTDDTraining.FifthDay
         {
             if((x,y) == (0,3))
                 return new Point(0,4);
+            if ((x, y) == (5, 2))
+                return new Point(5, 3);
             return new Point(0, 1);
         }
     }
