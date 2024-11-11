@@ -27,4 +27,15 @@ namespace DevTDDTraining.FifthDay
             return (0, 1);
         }
     }
-}
+
+    public class Point
+    {
+        public Point(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public int x;
+        public int y;
+    }
+}   
