@@ -22,9 +22,9 @@ namespace DevTDDTraining.FifthDay
 
     public class MarsRover
     {
-        public static object Move(int x, int y, char direction, string movements)
+        public static (int,int) Move(int x, int y, char direction, string movements)
         {
-            throw new NotImplementedException();
+            return (0, 1);
         }
     }
 }
