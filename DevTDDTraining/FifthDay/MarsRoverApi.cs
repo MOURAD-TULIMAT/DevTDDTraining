@@ -15,16 +15,16 @@ namespace DevTDDTraining.FifthDay
         public void StartingPoint00MoveUp()
         {
             var res = MarsRover.Move(0, 0, 'N', "f");
-            res.Should().Be((0,1));
+            res.Should().Be(new Point(0,1));
         }
 
     }
 
     public class MarsRover
     {
-        public static (int,int) Move(int x, int y, char direction, string movements)
+        public static Point Move(int x, int y, char direction, string movements)
         {
-            return (0, 1);
+            return new Point(0, 1);
         }
     }
 
